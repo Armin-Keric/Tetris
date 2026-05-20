@@ -11,6 +11,12 @@ import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
     public Pane gamePane;
+    public Pane gameFieldPane;
+    public Pane nextBlockPane;
+    public Label currentScoreLabel;
+    public Label highscoreLabel;
+    public Label currentLevelLabel;
+    public Label linesLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
