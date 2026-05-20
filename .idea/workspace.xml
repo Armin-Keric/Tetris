@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/intellij-javadocs-4.0.1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/tetris/game-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/tetris/style/gameStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/tetris/hello-view.fxml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/mosim/Documents/3AHITN/SEW/Projekte/Java/Tetris" value="3DzF9lCIqdUPeSP2x5FwucPYwLU" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="13" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "1Mauritz2"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Armin-Keric/Tetris.git",
+    "accountId": "7b4d8677-a8b6-4037-bfcc-21453af906ea"
+  }
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0000000000000009" />
+      <entry key="S10" value="1.000000030744455" />
+      <entry key="S30" value="1.0031642432974572" />
+      <entry key="S60" value="1.0615895358815461" />
+      <entry key="M2" value="1.3192288153609422" />
+      <entry key="M5" value="2.9130743919399653" />
+      <entry key="M10" value="8.989825702260015" />
+      <entry key="M15" value="15.703932182470917" />
+      <entry key="M30" value="29.564056783511237" />
+      <entry key="H1" value="41.50216554424109" />
+      <entry key="H2" value="49.41133849839015" />
+      <entry key="H4" value="53.97423620862673" />
+      <entry key="D1" value="58.12821958575984" />
+      <entry key="W1" value="58.87459598262089" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="7.229126568738992E-225" />
+      <entry key="MS500" value="1.4853102076314214E-45" />
+      <entry key="S2" value="6.208036925178507E-12" />
+      <entry key="S5" value="3.289892570641674E-5" />
+      <entry key="S10" value="0.005735758511863688" />
+      <entry key="S30" value="0.1790043642174464" />
+      <entry key="S60" value="0.4230901110428594" />
+      <entry key="M2" value="0.652400562571786" />
+      <entry key="M5" value="1.0722864104239422" />
+      <entry key="M10" value="2.3850672646100226" />
+      <entry key="M15" value="3.8496654886877417" />
+      <entry key="M30" value="6.970930829989582" />
+      <entry key="H1" value="9.759969830444485" />
+      <entry key="H2" value="11.655051253368994" />
+      <entry key="H4" value="12.764600677294577" />
+      <entry key="D1" value="13.784721829223251" />
+      <entry key="W1" value="13.96900744657021" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9075191553171609" />
+      <entry key="MS500" value="0.9807790039885513" />
+      <entry key="S2" value="0.9951597218240888" />
+      <entry key="S5" value="0.9980886810014044" />
+      <entry key="S10" value="1.004284679336169" />
+      <entry key="S30" value="1.1749235225150236" />
+      <entry key="S60" value="1.459334605061078" />
+      <entry key="M2" value="1.9222849795148615" />
+      <entry key="M5" value="3.933839984817446" />
+      <entry key="M10" value="11.331961451494491" />
+      <entry key="M15" value="19.516879483555112" />
+      <entry key="M30" value="36.50978916362225" />
+      <entry key="H1" value="51.24688753611224" />
+      <entry key="H2" value="61.057922254642946" />
+      <entry key="H4" value="66.73436353151652" />
+      <entry key="D1" value="71.91215978698452" />
+      <entry key="W1" value="72.84349084565805" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3DzF9lCIqdUPeSP2x5FwucPYwLU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Launcher.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.completion.popup",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tetris.Launcher" />
+      <module name="Tetris" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tetris.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Launcher" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.24374.151" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.24374.151" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="" />
+      <created>1779276842244</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1779276842244</updated>
+      <workItem from="1779276843376" duration="3594000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

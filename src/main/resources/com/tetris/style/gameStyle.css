@@ -1,0 +1,61 @@
+.root {
+    -fx-background-color: #1a1d2e;
+}
+
+.gameFieldStyle {
+    -fx-background-color: #13152a;
+    -fx-background-radius: 5;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.rightBox {
+    -fx-background-color: #2a2d45;
+    -fx-fill: #2a2d45;
+    -fx-stroke: #3a3d55;
+    -fx-stroke-width: 1;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+.headText {
+    -fx-font-family: Consolas;
+    -fx-text-fill: #00CCCC;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+.scoreLabel {
+    -fx-font-family: Consolas;
+    -fx-text-fill: #FFCC00;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}
+
+.levelLabel {
+    -fx-font-family: Consolas;
+    -fx-text-fill: #FF9900;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}
+
+.linesLabel {
+    -fx-font-family: Consolas;
+    -fx-text-fill: #FF3333;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}
+
+.highscoreLabel {
+    -fx-font-family: Consolas;
+    -fx-text-fill: #FF7700;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+}
+
+.split-pane-divider {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}

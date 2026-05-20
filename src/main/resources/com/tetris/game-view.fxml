@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="600.0" styleClass="root"
+           stylesheets="@style/gameStyle.css" xmlns="http://javafx.com/javafx/24.0.1"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tetris.GameController">
+    <items>
+        <AnchorPane style="-fx-padding: 20;">
+            <children>
+                <Pane fx:id="gameFieldPane" prefHeight="358.0" prefWidth="227.0" styleClass="gameFieldStyle"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0"/>
+            </children>
+        </AnchorPane>
+        <VBox prefWidth="200.0" spacing="15" style="-fx-padding: 20;">
+            <children>
+                <AnchorPane prefHeight="87.0" prefWidth="200.0">
+                    <children>
+                        <Pane fx:id="nextBlockPane" styleClass="rightBox" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                        <Label styleClass="headText" text="Nächste Form" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane prefHeight="67.0" prefWidth="200.0">
+                    <children>
+                        <Rectangle height="67.0" styleClass="rightBox" AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                        <Label styleClass="headText" text="Score" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0"/>
+                        <Label fx:id="currentScoreLabel" styleClass="scoreLabel" text="Label"
+                               AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.rightAnchor="10.0"/>
+                    </children>
+                </AnchorPane>
+
+                <HBox prefHeight="67.0" prefWidth="200.0" spacing="13">
+                    <children>
+                        <AnchorPane prefHeight="67.0" prefWidth="90.0">
+                            <children>
+                                <Rectangle height="67.0" styleClass="rightBox" AnchorPane.bottomAnchor="0.0"
+                                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                           AnchorPane.topAnchor="0.0"/>
+                                <Label styleClass="headText" text="Level" AnchorPane.leftAnchor="10.0"
+                                       AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0"/>
+                                <Label fx:id="currentLevelLabel" styleClass="levelLabel" text="Label"
+                                       AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                                       AnchorPane.rightAnchor="10.0"/>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="67.0" prefWidth="90.0">
+                            <children>
+                                <Rectangle height="67.0" styleClass="rightBox" AnchorPane.bottomAnchor="0.0"
+                                           AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                           AnchorPane.topAnchor="0.0"/>
+                                <Label styleClass="headText" text="Lines" AnchorPane.leftAnchor="10.0"
+                                       AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0"/>
+                                <Label fx:id="linesLabel" styleClass="linesLabel" text="Label"
+                                       AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                                       AnchorPane.rightAnchor="10.0"/>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </HBox>
+
+                <AnchorPane prefHeight="67.0" prefWidth="200.0">
+                    <children>
+                        <Rectangle height="67.0" styleClass="rightBox" AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                        <Label styleClass="headText" text="Highscore" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0"/>
+                        <Label fx:id="highscoreLabel" styleClass="highscoreLabel" text="Label"
+                               AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0"
+                               AnchorPane.rightAnchor="10.0"/>
+                    </children>
+                </AnchorPane>
+            </children>
+        </VBox>
+    </items>
+</SplitPane>
