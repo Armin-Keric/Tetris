@@ -3,8 +3,9 @@
 A simple Tetris game made with JavaFX. 
 
 
-:sparkles: Features
+# :sparkles: Features
 
+- WIP
 
 # Installation
 
@@ -15,9 +16,9 @@ A simple Tetris game made with JavaFX.
 make sure that java is installed by typing inside your terminal `java --version`
 
 1. Clone the repository
-    ```zsh
-   https://github.com/Armin-Keric/Tetris.git
-   ```
+```zsh
+https://github.com/Armin-Keric/Tetris.git
+```
 2. Navigate into the project directory
 
 ```
@@ -40,7 +41,9 @@ chmod +x mvnw
 
 # :sunglasses: Authors
 
-- <a src="https://github.com/Armin-Keric">Armin Keric</a>
-- <a src="https://github.com/MaX116207">Maximilian Leimhofer</a>
-- <a src="https://github.com/1Mauritz2">Moritz Raschko</a>
-- <a src="https://github.com/arogantxr">Paul Platzer</a>
+<ul>
+    <li><a href="https://github.com/Armin-Keric">Armin Keric</a></li>
+    <li><a href="https://github.com/MaX116207">Maximilian Leimhofer</a></li>
+    <li><a href="https://github.com/1Mauritz2">Moritz Raschko</a></li>
+    <li><a href="https://github.com/arogantxr">Paul Platzer</a></li>
+</ul>
