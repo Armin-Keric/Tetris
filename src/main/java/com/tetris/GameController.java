@@ -27,7 +27,8 @@ public class GameController implements Initializable {
             new S(15, 10, 20),
             new T(15, 10, 20),
             new Z(15, 10, 20)));
-    //Everything inherits from Shape so we can just use Shape here (looks better than Object too
+
+    //Everything inherits from Shape so we can just use Shape here (is cleaner than Object too)
     private Shape form = arrayList.get(random.nextInt(arrayList.size()));
 
     @Override
@@ -39,14 +40,11 @@ public class GameController implements Initializable {
     }
 
     public void onKeyPressed(KeyEvent keyEvent) {
-
-
         switch (keyEvent.getCode()) {
             case Q -> form.rotateLeft(form);
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
-            case A -> form.moveLeft(form);
-            case D -> form.moveRight(form);
+            case A, D -> form.moveAD(form,keyEvent);
             case SPACE -> form.hardDrop(form);
         }
     }

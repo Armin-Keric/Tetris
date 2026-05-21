@@ -2,6 +2,7 @@ package com.tetris.shapes;
 
 
 import javafx.scene.Group;
+import javafx.scene.input.KeyEvent;
 
 import javax.swing.text.GapContent;
 
@@ -23,24 +24,19 @@ public abstract class Shape extends Group {
 
 
     //A
-    public void moveLeft(Shape shape) {
+    //@ToDo dont forget to change branches!
+    public void moveAD(Shape shape, KeyEvent keyEvent) {
 
-        if (shape instanceof I) {
-
-        } else if (shape instanceof J) {
-
-        } else if (shape instanceof L) {
-
-        } else if (shape instanceof O) {
-
-        } else if (shape instanceof S) {
-            
-        } else if (shape instanceof  T) {
-            
-        } else if (shape instanceof Z) {
-            
+        switch (shape) {
+            case I i -> calcPos(shape, keyEvent);
+            case J j -> calcPos(shape, keyEvent);
+            case L l -> calcPos(shape, keyEvent);
+            case O o -> calcPos(shape, keyEvent);
+            case S s -> calcPos(shape, keyEvent);
+            case T t -> calcPos(shape, keyEvent);
+            case Z z -> calcPos(shape, keyEvent);
+            default -> throw new IllegalStateException("Unexpected value: " + shape);
         }
-
     }
 
     public void rotateLeft(Shape shape) {
@@ -49,7 +45,6 @@ public abstract class Shape extends Group {
 
     //D
     public void moveRight(Shape shape) {
-
     }
 
     public void rotateRight(Shape shape) {
@@ -63,6 +58,46 @@ public abstract class Shape extends Group {
 
     //SPACE
     public void hardDrop(Shape shape) {
+
+    }
+
+    public void calcPos(Shape shape, KeyEvent keyEvent) {
+        Block[] blocks1 = shape.getBlocks();
+
+        switch (keyEvent.getCode()) {
+            case A:
+
+                for (int i = 0; i < shape.getBlocks().length; ++i) {
+                    int x = blocks1[i].getPos().getX() - 1;
+                    int y = blocks1[i].getPos().getY();
+                    if (x < 0 || blocks1[3].getPos().getX() == 0) {
+                        return;
+                    } else {
+                        Position pos = new Position(x, y);
+                        blocks1[i].setPos(pos);
+                    }
+
+                }
+
+                break;
+
+            case D:
+
+                for (int i = 0; i < shape.getBlocks().length; ++i) {
+                    int x = blocks1[i].getPos().getX() + 1;
+                    int y = blocks1[i].getPos().getY();
+                    if (x > 16 || blocks1[3].getPos().getX() + 1 == 17 || (blocks1[3].getPos().getX() + 2 == 17 && shape instanceof T)) {
+                        return;
+                    } else {
+                        Position pos = new Position(x, y);
+                        blocks1[i].setPos(pos);
+                    }
+
+                }
+
+                break;
+        }
+
 
     }
 
