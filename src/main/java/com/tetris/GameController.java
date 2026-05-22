@@ -20,7 +20,8 @@ public class GameController implements Initializable {
     public Label linesLabel;
 
     private Random random = new Random();
-    private ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(new I(15, 10, 20),
+    private ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
+            new I(15, 10, 20),
             new J(15, 10, 20),
             new L(15, 10, 20),
             new O(15, 10, 20),
@@ -41,10 +42,9 @@ public class GameController implements Initializable {
 
     public void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case Q -> form.rotateLeft(form);
             case E -> form.rotateRight(form);
-            case S -> form.moveDown(form);
-            case A, D -> form.moveAD(form,keyEvent);
+            //case S -> form.moveDown(form);
+            case A, D,S -> form.moveAD(form,keyEvent);
             case SPACE -> form.hardDrop(form);
         }
     }

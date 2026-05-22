@@ -22,41 +22,55 @@ public abstract class Shape extends Group {
         return this.blocks;
     }
 
-
-    //A
-    //@ToDo dont forget to change branches!
     public void moveAD(Shape shape, KeyEvent keyEvent) {
-
-        switch (shape) {
-            case I i -> calcPos(shape, keyEvent);
-            case J j -> calcPos(shape, keyEvent);
-            case L l -> calcPos(shape, keyEvent);
-            case O o -> calcPos(shape, keyEvent);
-            case S s -> calcPos(shape, keyEvent);
-            case T t -> calcPos(shape, keyEvent);
-            case Z z -> calcPos(shape, keyEvent);
-            default -> throw new IllegalStateException("Unexpected value: " + shape);
-        }
-    }
-
-    public void rotateLeft(Shape shape) {
-
-    }
-
-    //D
-    public void moveRight(Shape shape) {
+        calcPos(shape, keyEvent);
     }
 
     public void rotateRight(Shape shape) {
+        Block[] blocks1 = shape.getBlocks();
 
+        if (shape instanceof O) return;
+
+        int zentrumX = blocks1[1].getPos().getX();
+        int zentrumY = blocks1[1].getPos().getY();
+
+        Position[] positions = new Position[4];
+
+        //rotation calculations
+        for (int i = 0; i < blocks1.length; ++i) {
+            int relX = blocks1[i].getPos().getX() - zentrumX;
+            int relY = blocks1[i].getPos().getY() - zentrumY;
+
+            int rotiertX = -relY;
+            int rotiertY = relX;
+
+            int finalX = rotiertX + zentrumX;
+            int finalY = rotiertY + zentrumY;
+
+            positions[i] = new Position(finalX, finalY);
+        }
+
+        for (int i = 0; i < positions.length; ++i) {
+            int x = positions[i].getX();
+            int y = positions[i].getY();
+
+            if (x < 0 || x >= 16 || y < 0 || y >= 23) {
+                return;
+            }
+        }
+
+        for (int i = 0; i < blocks1.length; ++i) {
+            blocks1[i].setPos(positions[i]);
+        }
     }
 
     //This is the SoftDrop too...
+    //@ToDo
     public void moveDown(Shape shape) {
 
     }
 
-    //SPACE
+    //@ToDo
     public void hardDrop(Shape shape) {
 
     }
@@ -96,9 +110,23 @@ public abstract class Shape extends Group {
                 }
 
                 break;
+
+            case E:
+
+                rotateRight(shape);
+                break;
+
+            //@ToDo
+            //entweder extra methode oder hier aber extra methode schoener
+            case S:
+                //@ToDo
+
+                break;
+
+            case SPACE:
+
+                break;
         }
-
-
     }
 
 }
