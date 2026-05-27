@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CustomMenuItem?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style/gameStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tetris.GameController">
+<SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style/gameStyle.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tetris.GameController">
     <items>
         <AnchorPane style="-fx-padding: 20;">
             <children>
@@ -58,6 +62,32 @@
                         <Label fx:id="highscoreLabel" styleClass="highscoreLabel" text="Label" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                     </children>
                 </AnchorPane>
+            <AnchorPane prefHeight="366.0" prefWidth="259.0">
+                <MenuButton fx:id="settingsMenuButton" styleClass="settings-menu-button" text="⚙" layoutX="213.0" layoutY="14.0" AnchorPane.leftAnchor="213.0" AnchorPane.topAnchor="14.0">
+                    <items>
+                        <CustomMenuItem hideOnClick="false">
+                            <content>
+                                <VBox spacing="8.0" styleClass="menu-content">
+                                    <children>
+                                        <!-- IMPORTANT: fx:id matches Controller field -->
+                                        <ScrollBar fx:id="volumeScrollBar" max="1.0" min="0.0" orientation="HORIZONTAL" prefWidth="160.0" styleClass="Volume-Bar" value="0.5" />
+                                    </children>
+                                </VBox>
+                            </content>
+                        </CustomMenuItem>
+                        <CustomMenuItem hideOnClick="false">
+                            <content>
+                                <VBox spacing="6.0" styleClass="menu-content">
+                                    <children>
+                                        <!-- IMPORTANT: fx:id matches Controller field -->
+                                        <ComboBox fx:id="songChoiceComboBox" onAction="#songChosenComboBox" prefWidth="160.0" styleClass="songChoice" />
+                                    </children>
+                                </VBox>
+                            </content>
+                        </CustomMenuItem>
+                    </items>
+                </MenuButton>
+            </AnchorPane>
             </children>
         </VBox>
     </items>

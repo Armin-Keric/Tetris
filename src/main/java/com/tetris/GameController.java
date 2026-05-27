@@ -1,6 +1,7 @@
 package com.tetris;
 
 import com.tetris.shapes.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -52,5 +53,8 @@ public class GameController implements Initializable {
 
     public ArrayList<Shape> getArrayList() {
         return arrayList;
+    }
+
+    public void songChosenComboBox(ActionEvent actionEvent) {
     }
 }
