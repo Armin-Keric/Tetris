@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<AnchorPane fx:controller="com.tetris.HelloController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <Pane fx:id="gamePane" layoutX="30.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="150.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-</AnchorPane>
