@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style/startStyle.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tetris.StartController">
+    <children>
+
+        <Pane layoutX="20.0" layoutY="20.0" prefHeight="360.0" prefWidth="560.0" styleClass="backgroundCard">
+            <children>
+                <Pane layoutX="166.0" layoutY="14.0" prefHeight="70.0" prefWidth="228.0">
+                    <children>
+                        <Label layoutX="0.0" layoutY="0.0" styleClass="tetris-t" text="T">
+                            <font>
+                                <Font size="42.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="40.0" layoutY="0.0" styleClass="tetris-e" text="E">
+                            <font>
+                                <Font size="42.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="80.0" layoutY="0.0" styleClass="tetris-t2" text="T">
+                            <font>
+                                <Font size="42.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="120.0" layoutY="0.0" styleClass="tetris-r" text="R">
+                            <font>
+                                <Font size="42.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="165.0" layoutY="0.0" styleClass="tetris-i" text="I">
+                            <font>
+                                <Font size="42.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="205.0" layoutY="0.0" styleClass="tetris-s" text="S">
+                            <font>
+                                <Font size="42.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+
+                <Label layoutX="158.0" layoutY="84.0" styleClass="subtitleText" text="Keric, Leimhofer, Platzer, Raschko" />
+
+                <Button layoutX="243.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#onPlayGameButtonClicked" styleClass="startButton" text="Play" />
+                <Button layoutX="237.0" layoutY="221.0" mnemonicParsing="false" onMouseClicked="#onQuitButtonClicked" prefHeight="25.0" prefWidth="84.0" styleClass="startButton" text="Quit" />
+            </children>
+        </Pane>
+
+        <Button layoutX="24.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onHighscoreButtonClicked" styleClass="highscoreButton" text="High-Score" />
+
+        <AnchorPane fx:id="highscorePane" layoutX="24.0" layoutY="53.0" prefHeight="300.0" prefWidth="180.0" styleClass="highscorePane" visible="false">
+            <children>
+                <ListView fx:id="highscoreListView" layoutX="0.0" layoutY="0.0" prefHeight="300.0" prefWidth="180.0" styleClass="highscoreListView" />
+            </children>
+        </AnchorPane>
+
+    </children>
+</AnchorPane>
