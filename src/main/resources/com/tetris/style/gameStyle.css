@@ -3,7 +3,11 @@
 }
 
 .gameFieldStyle {
-    -fx-background-color: #13152a;
+    -fx-background-color:
+        linear-gradient(from 0% 0% to 100% 0%, transparent 90%, rgba(255,255,255,0.10) 90%, rgba(255,255,255,0.10) 100%),
+        linear-gradient(from 0% 0% to 0% 100%, transparent 90%, rgba(255,255,255,0.10) 90%, rgba(255,255,255,0.10) 100%),
+        #13152a;
+    -fx-background-size: 20 20, 20 20, auto;
     -fx-background-radius: 5;
     -fx-border-color: #3a3d55;
     -fx-border-width: 1;
