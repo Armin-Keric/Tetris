@@ -1,11 +1,20 @@
 package com.tetris;
 
 import com.tetris.shapes.*;
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 import java.net.URL;
 import java.util.*;
@@ -19,6 +28,11 @@ public class GameController implements Initializable {
     public Label highscoreLabel;
     public Label currentLevelLabel;
     public Label linesLabel;
+    public ScrollBar volumeScrollBar;
+    public ComboBox<String> songChoiceComboBox;
+    public MenuButton settingsMenuButton;
+    private Media media;
+    private MediaPlayer mediaPlayer;
 
     private Random random = new Random();
     private ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
@@ -38,23 +52,61 @@ public class GameController implements Initializable {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
         gamePane.getChildren().add((form));
+        initVolumeSlider();
+        addMusicToBox();
+        songChosenComboBox();
 
+        settingsMenuButton.showingProperty().addListener((obs, wasShowing, isShowing) -> {
+            if (!isShowing) {
+                Platform.runLater(() -> gamePane.requestFocus());
+            }
+        });
     }
+
 
     public void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             //case S -> form.moveDown(form);
-            case A, D,S -> form.moveAD(form,keyEvent);
+            case A, D, S -> form.moveAD(form, keyEvent);
             case SPACE -> form.hardDrop(form);
         }
     }
 
+    public void songChosenComboBox() {
+        Thread musicThread = new Thread(() -> {
+            if (mediaPlayer != null) {
+                mediaPlayer.volumeProperty().unbind();
+                mediaPlayer.stop();
+                mediaPlayer.dispose();
+            }
 
-    public ArrayList<Shape> getArrayList() {
-        return arrayList;
+            String songName = songChoiceComboBox.getSelectionModel().getSelectedItem();
+            String musicFile = "./src/main/resources/com/tetris/assets/audio/" + songName + ".mp3";
+            media = new Media(new File(musicFile).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+
+            mediaPlayer.play();
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.volumeProperty().bind(volumeScrollBar.valueProperty());
+        });
+        musicThread.start();
     }
 
-    public void songChosenComboBox(ActionEvent actionEvent) {
+    public void addMusicToBox() {
+        songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda");
+
+        songChoiceComboBox.setValue(songChoiceComboBox.getItems().get(0));
+    }
+
+    public void initVolumeSlider() {
+        volumeScrollBar.setMin(0.0);
+        volumeScrollBar.setMax(1.0);
+        volumeScrollBar.setValue(0.1);
+    }
+
+    //
+    public ArrayList<Shape> getArrayList() {
+        return arrayList;
     }
 }
