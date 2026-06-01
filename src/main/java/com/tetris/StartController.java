@@ -1,40 +1,46 @@
 package com.tetris;
 
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class StartController {
+    @FXML
     public AnchorPane highscorePane;
-    public ListView highscoreListView;
+    @FXML
+    public ListView<String> highscoreListView;
 
-    public void Initialize(){
+    @FXML
+    public void initialize(){
         highscorePane.setVisible(false);
+        refreshHighscore();
     }
 
-    public void onHighscoreButtonClicked(MouseEvent mouseEvent) {
-        if (highscorePane.isVisible()) {
-            highscorePane.setVisible(false);
-        } else {
-            highscorePane.setVisible(true);
-        }
+    public void refreshHighscore() {
+        HighscoreManager highscore = HighscoreManager.getInstance();
+        highscoreListView.getItems().clear();
+
+        highscore.getRecent(10).forEach(entry -> highscoreListView.getItems().add(entry.toString()));
     }
 
-    public void onPlayGameButtonClicked(MouseEvent mouseEvent) throws IOException {
+    public void onHighscoreButtonClicked() {
+        highscorePane.setVisible(!highscorePane.isVisible());
+    }
+
+    public void onPlayGameButtonClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("game-view.fxml"));
         Scene scene = new Scene(loader.load());
-        Stage stage = (Stage) ((Button) mouseEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) highscorePane.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    public void onQuitButtonClicked(MouseEvent mouseEvent) {
+    public void onQuitButtonClicked() {
         System.exit(0);
     }
 }

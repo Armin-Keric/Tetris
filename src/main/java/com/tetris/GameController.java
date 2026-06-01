@@ -33,6 +33,7 @@ public class GameController implements Initializable {
     public MenuButton settingsMenuButton;
     private Media media;
     private MediaPlayer mediaPlayer;
+    private boolean scoreSaved = false;
 
     private Random random = new Random();
     private ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
@@ -52,6 +53,8 @@ public class GameController implements Initializable {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
         gamePane.getChildren().add((form));
+        initializeScoreLabels();
+        refreshHighscoreLabel();
         initVolumeSlider();
         addMusicToBox();
         songChosenComboBox();
@@ -61,6 +64,54 @@ public class GameController implements Initializable {
                 Platform.runLater(() -> gamePane.requestFocus());
             }
         });
+    }
+
+    private void initializeScoreLabels() {
+        if ("Label".equals(currentScoreLabel.getText())) {
+            currentScoreLabel.setText("0");
+        }
+        if ("Label".equals(highscoreLabel.getText())) {
+            highscoreLabel.setText("0");
+        }
+        if ("Label".equals(currentLevelLabel.getText())) {
+            currentLevelLabel.setText("1");
+        }
+        if ("Label".equals(linesLabel.getText())) {
+            linesLabel.setText("0");
+        }
+    }
+
+    private void refreshHighscoreLabel() {
+        String top = HighscoreManager.getInstance().getTopScore().map(entry -> String.valueOf(entry.getScore())).orElse("0");
+        highscoreLabel.setText(top);
+    }
+
+    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
+    public void onGameOverSaveScore() {
+        if (scoreSaved) {
+            return;
+        }
+        int score = parseScore(currentScoreLabel.getText());
+        if (score <= 0) {
+            return;
+        }
+        HighscoreManager.getInstance().addScore(score, "Spieler");
+        scoreSaved = true;
+    }
+
+    private int parseScore(String text) {
+        if (text == null || text.isBlank()) {
+            return 0;
+        }
+        String digits = text.replaceAll("[^0-9]", "");
+        if (digits.isEmpty()) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(digits);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
 
