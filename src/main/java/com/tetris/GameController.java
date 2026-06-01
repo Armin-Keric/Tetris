@@ -1,10 +1,13 @@
 package com.tetris;
 
 import com.tetris.shapes.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -52,6 +55,11 @@ public class GameController implements Initializable {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
         gamePane.getChildren().add((form));
+
+        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(500), e -> form.moveDown(form)));
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
+
         initVolumeSlider();
         addMusicToBox();
         songChosenComboBox();
@@ -67,8 +75,8 @@ public class GameController implements Initializable {
     public void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
-            //case S -> form.moveDown(form);
-            case A, D, S -> form.moveAD(form, keyEvent);
+            case S -> form.moveDown(form);
+            case A, D -> form.moveAD(form, keyEvent);
             case SPACE -> form.hardDrop(form);
         }
     }
@@ -94,7 +102,7 @@ public class GameController implements Initializable {
     }
 
     public void addMusicToBox() {
-        songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda");
+        songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda", "Samuel-Remix");
 
         songChoiceComboBox.setValue(songChoiceComboBox.getItems().get(0));
     }
