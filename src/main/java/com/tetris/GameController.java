@@ -4,8 +4,6 @@ import com.tetris.shapes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
@@ -25,7 +23,6 @@ import java.util.*;
 
 public class GameController implements Initializable {
     public Pane gamePane;
-    public Pane gameFieldPane;
     public Pane nextBlockPane;
     public Label currentScoreLabel;
     public Label highscoreLabel;
@@ -36,9 +33,10 @@ public class GameController implements Initializable {
     public MenuButton settingsMenuButton;
     private Media media;
     private MediaPlayer mediaPlayer;
+    private boolean scoreSaved = false;
 
-    private Random random = new Random();
-    private ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
+    private final Random random = new Random();
+    private final ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
             new I(15, 10, 20),
             new J(15, 10, 20),
             new L(15, 10, 20),
@@ -47,8 +45,8 @@ public class GameController implements Initializable {
             new T(15, 10, 20),
             new Z(15, 10, 20)));
 
-    //Everything inherits from Shape so we can just use Shape here (is cleaner than Object too)
-    private Shape form = arrayList.get(random.nextInt(arrayList.size()));
+    // Everything inherits from Shape so we can just use Shape here
+    private final Shape form = arrayList.get(random.nextInt(arrayList.size()));
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,6 +58,8 @@ public class GameController implements Initializable {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
 
+        initializeScoreLabels();
+        refreshHighscoreLabel();
         initVolumeSlider();
         addMusicToBox();
         songChosenComboBox();
@@ -78,6 +78,54 @@ public class GameController implements Initializable {
             case S -> form.moveDown(form);
             case A, D -> form.moveAD(form, keyEvent);
             case SPACE -> form.hardDrop(form);
+        }
+    }
+
+    private void initializeScoreLabels() {
+        if ("Label".equals(currentScoreLabel.getText())) {
+            currentScoreLabel.setText("0");
+        }
+        if ("Label".equals(highscoreLabel.getText())) {
+            highscoreLabel.setText("0");
+        }
+        if ("Label".equals(currentLevelLabel.getText())) {
+            currentLevelLabel.setText("1");
+        }
+        if ("Label".equals(linesLabel.getText())) {
+            linesLabel.setText("0");
+        }
+    }
+
+    private void refreshHighscoreLabel() {
+        String top = HighscoreManager.getInstance().getTopScore().map(entry -> String.valueOf(entry.getScore())).orElse("0");
+        highscoreLabel.setText(top);
+    }
+
+    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
+    public void onGameOverSaveScore() {
+        if (scoreSaved) {
+            return;
+        }
+        int score = parseScore(currentScoreLabel.getText());
+        if (score <= 0) {
+            return;
+        }
+        HighscoreManager.getInstance().addScore(score, "Spieler");
+        scoreSaved = true;
+    }
+
+    private int parseScore(String text) {
+        if (text == null || text.isBlank()) {
+            return 0;
+        }
+        String digits = text.replaceAll("[^0-9]", "");
+        if (digits.isEmpty()) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(digits);
+        } catch (NumberFormatException e) {
+            return 0;
         }
     }
 
@@ -111,10 +159,5 @@ public class GameController implements Initializable {
         volumeScrollBar.setMin(0.0);
         volumeScrollBar.setMax(1.0);
         volumeScrollBar.setValue(0.1);
-    }
-
-    //
-    public ArrayList<Shape> getArrayList() {
-        return arrayList;
     }
 }
