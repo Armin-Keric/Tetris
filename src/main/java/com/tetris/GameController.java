@@ -1,10 +1,13 @@
 package com.tetris;
 
 import com.tetris.shapes.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -33,7 +36,6 @@ public class GameController implements Initializable {
     public MenuButton settingsMenuButton;
     private Media media;
     private MediaPlayer mediaPlayer;
-    private boolean scoreSaved = false;
 
     private Random random = new Random();
     private ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
@@ -53,8 +55,11 @@ public class GameController implements Initializable {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
         gamePane.getChildren().add((form));
-        initializeScoreLabels();
-        refreshHighscoreLabel();
+
+        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(500), e -> form.moveDown(form)));
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
+
         initVolumeSlider();
         addMusicToBox();
         songChosenComboBox();
@@ -66,60 +71,12 @@ public class GameController implements Initializable {
         });
     }
 
-    private void initializeScoreLabels() {
-        if ("Label".equals(currentScoreLabel.getText())) {
-            currentScoreLabel.setText("0");
-        }
-        if ("Label".equals(highscoreLabel.getText())) {
-            highscoreLabel.setText("0");
-        }
-        if ("Label".equals(currentLevelLabel.getText())) {
-            currentLevelLabel.setText("1");
-        }
-        if ("Label".equals(linesLabel.getText())) {
-            linesLabel.setText("0");
-        }
-    }
-
-    private void refreshHighscoreLabel() {
-        String top = HighscoreManager.getInstance().getTopScore().map(entry -> String.valueOf(entry.getScore())).orElse("0");
-        highscoreLabel.setText(top);
-    }
-
-    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
-    public void onGameOverSaveScore() {
-        if (scoreSaved) {
-            return;
-        }
-        int score = parseScore(currentScoreLabel.getText());
-        if (score <= 0) {
-            return;
-        }
-        HighscoreManager.getInstance().addScore(score, "Spieler");
-        scoreSaved = true;
-    }
-
-    private int parseScore(String text) {
-        if (text == null || text.isBlank()) {
-            return 0;
-        }
-        String digits = text.replaceAll("[^0-9]", "");
-        if (digits.isEmpty()) {
-            return 0;
-        }
-        try {
-            return Integer.parseInt(digits);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
 
     public void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
-            //case S -> form.moveDown(form);
-            case A, D, S -> form.moveAD(form, keyEvent);
+            case S -> form.moveDown(form);
+            case A, D -> form.moveAD(form, keyEvent);
             case SPACE -> form.hardDrop(form);
         }
     }
@@ -145,7 +102,7 @@ public class GameController implements Initializable {
     }
 
     public void addMusicToBox() {
-        songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda");
+        songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda", "Samuel-Remix");
 
         songChoiceComboBox.setValue(songChoiceComboBox.getItems().get(0));
     }
