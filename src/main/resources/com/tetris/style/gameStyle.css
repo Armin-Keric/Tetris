@@ -5,9 +5,11 @@
 .gameFieldStyle {
     -fx-background-color: #13152a;
     -fx-background-radius: 5;
-    -fx-border-color: #3a3d55;
-    -fx-border-width: 1;
-    -fx-border-radius: 5;
+    -fx-background-insets: 0;
+    -fx-border-color: white;
+    -fx-border-width: 1.2;
+    -fx-border-insets: 0;
+    -fx-padding: 0;
 }
 
 .rightBox {
