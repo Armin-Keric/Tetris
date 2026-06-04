@@ -1,10 +1,11 @@
 package com.tetris.shapes;
 
+import com.tetris.GameLogic;
 import javafx.scene.paint.Color;
 
 public class Z extends Shape {
-    public Z(int blockSize, int maxWidth, int maxHeight) {
-        super(blockSize, maxWidth, maxHeight);
+    public Z(int blockSize, int maxWidth, int maxHeight, GameLogic gameLogic) {
+        super(blockSize, maxWidth, maxHeight,gameLogic);
         this.blocks[0] = new Block(blockSize);
         this.blocks[0].setPos(new Position(maxWidth / 2 - 1, 0));
         this.blocks[1] = new Block(blockSize);

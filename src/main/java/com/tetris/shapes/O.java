@@ -1,9 +1,11 @@
 package com.tetris.shapes;
 
 
+import com.tetris.GameLogic;
+
 public class O extends Shape {
-    public O(int blockSize, int maxWidth, int maxHeight) {
-        super(blockSize, maxWidth, maxHeight);
+    public O(int blockSize, int maxWidth, int maxHeight, GameLogic gameLogic) {
+        super(blockSize, maxWidth, maxHeight,gameLogic);
         this.blocks[0] = new Block(blockSize);
         this.blocks[0].setPos(new Position(maxWidth / 2 - 1, 0));
         this.blocks[1] = new Block(blockSize);

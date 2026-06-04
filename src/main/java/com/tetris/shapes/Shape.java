@@ -1,5 +1,6 @@
 package com.tetris.shapes;
 
+import com.tetris.GameLogic;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 
@@ -10,10 +11,12 @@ public abstract class Shape extends Group {
 
     private int blocksize = 0;
     public Block[] blocks = new Block[4];
+    private boolean blockIsSet;
+    public GameLogic gameLogic;
 
-    public Shape(int blocksize, int maxWidth, int maxHeight) {
+    public Shape(int blocksize, int maxWidth, int maxHeight,GameLogic gameLogic) {
         this.blocksize = blocksize;
-
+        this.gameLogic = gameLogic;
     }
 
     public Block[] getBlocks() {
@@ -65,13 +68,14 @@ public abstract class Shape extends Group {
         Block[] blocks1 = shape.getBlocks();
 
         for (int i = 0; i < blocks1.length; ++i) {
-            if (blocks1[i].getPos().getY() + 1 > ROWS) return;
+            if (blocks1[i].getPos().getY() + 1 > ROWS) gameLogic.clearRows();
         }
 
         for (int i = 0; i < blocks1.length; ++i) {
             int x = blocks1[i].getPos().getX();
             int y = blocks1[i].getPos().getY() + 1;
             blocks1[i].setPos(new Position(x, y));
+            blockIsSet = true;
         }
     }
 
@@ -87,6 +91,11 @@ public abstract class Shape extends Group {
             blocks1[i].setPos(new Position(
                     blocks1[i].getPos().getX(),
                     blocks1[i].getPos().getY() + drop));
+        }
+
+        if(blockIsSet){
+            blockIsSet = false;
+            gameLogic.clearRows();
         }
     }
 

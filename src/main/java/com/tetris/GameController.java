@@ -34,24 +34,18 @@ public class GameController implements Initializable {
     private Media media;
     private MediaPlayer mediaPlayer;
     private boolean scoreSaved = false;
+    public GameLogic gameLogic = new GameLogic();
 
     private final Random random = new Random();
-    private final ArrayList<Shape> arrayList = new ArrayList<>(Arrays.asList(
-            new I(15, 10, 20),
-            new J(15, 10, 20),
-            new L(15, 10, 20),
-            new O(15, 10, 20),
-            new S(15, 10, 20),
-            new T(15, 10, 20),
-            new Z(15, 10, 20)));
 
     // Everything inherits from Shape so we can just use Shape here
-    private final Shape form = arrayList.get(random.nextInt(arrayList.size()));
+    private Shape form;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
+        getRandomShapes();
         gamePane.getChildren().add((form));
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(500), e -> form.moveDown(form)));
@@ -69,6 +63,18 @@ public class GameController implements Initializable {
                 Platform.runLater(() -> gamePane.requestFocus());
             }
         });
+    }
+
+    private void getRandomShapes() {
+        switch (random.nextInt(7)) {
+            case 0 -> form = new I(15, 10, 20, gameLogic);
+            case 1 -> form = new J(15, 10, 20, gameLogic);
+            case 2 -> form = new L(15, 10, 20, gameLogic);
+            case 3 -> form = new O(15, 10, 20, gameLogic);
+            case 4 -> form = new S(15, 10, 20, gameLogic);
+            case 5 -> form = new T(15, 10, 20, gameLogic);
+            case 6 -> form = new Z(15, 10, 20, gameLogic);
+        }
     }
 
 
