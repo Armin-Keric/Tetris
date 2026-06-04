@@ -13,9 +13,24 @@ public abstract class Shape extends Group {
     public Block[] blocks = new Block[4];
     public GameLogic gameLogic;
 
+    private int maxWidth;
+    private int maxHeight;
+
+    public boolean isLanded = false;
+
     public Shape(int blocksize, int maxWidth, int maxHeight, GameLogic gameLogic) {
         this.blocksize = blocksize;
         this.gameLogic = gameLogic;
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+    }
+
+    public int getMaxWidth() {
+        return maxWidth;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
     }
 
     public Block[] getBlocks() {
@@ -30,7 +45,7 @@ public abstract class Shape extends Group {
         for (int i = 0; i < positions.length; ++i) {
             int x = positions[i].getX();
             int y = positions[i].getY();
-            if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return false;
+            if (x < 0 || x >= maxWidth || y < 0 || y >= maxHeight) return false;
         }
         return true;
     }
@@ -48,7 +63,7 @@ public abstract class Shape extends Group {
 
 
         for (int i = 0; i < blocks1.length; ++i) {
-            if (blocks1[i].getPos().getY() >= ROWS) return;
+            if (blocks1[i].getPos().getY() >= maxHeight) return;
         }
 
         int zentrumX = blocks1[1].getPos().getX();
@@ -67,8 +82,9 @@ public abstract class Shape extends Group {
         Block[] blocks1 = shape.getBlocks();
 
         for (int i = 0; i < blocks1.length; ++i) {
-            if (blocks1[i].getPos().getY() + 1 > ROWS) {
-                gameLogic.clearRows();
+            if (blocks1[i].getPos().getY() + 1 >= maxHeight) {
+                isLanded = true;
+                //gameLogic.clearRows();
                 return;
             }
         }
@@ -84,7 +100,7 @@ public abstract class Shape extends Group {
         Block[] blocks1 = shape.getBlocks();
         int drop = Integer.MAX_VALUE;
         for (int i = 0; i < blocks1.length; ++i) {
-            int space = ROWS - blocks1[i].getPos().getY();
+            int space = (maxHeight-1) - blocks1[i].getPos().getY();
             if (space < drop) drop = space;
         }
 
@@ -94,7 +110,10 @@ public abstract class Shape extends Group {
                     blocks1[i].getPos().getY() + drop));
         }
 
-        gameLogic.clearRows();
+        isLanded = true;
+
+
+        //gameLogic.clearRows();
     }
 
     public void calcPos(Shape shape, KeyEvent keyEvent) {

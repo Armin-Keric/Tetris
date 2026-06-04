@@ -79,6 +79,8 @@ public class GameController implements Initializable {
 
 
     public void onKeyPressed(KeyEvent keyEvent) {
+        if(form.isLanded) return;
+
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
