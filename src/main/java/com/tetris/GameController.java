@@ -17,6 +17,7 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -31,8 +32,8 @@ public class GameController implements Initializable {
     public ScrollBar volumeScrollBar;
     public ComboBox<String> songChoiceComboBox;
     public MenuButton settingsMenuButton;
-    private Media media;
-    private MediaPlayer mediaPlayer;
+    private static Media media;
+    private static MediaPlayer mediaPlayer;
     private boolean scoreSaved = false;
     public GameLogic gameLogic = new GameLogic();
 
@@ -78,8 +79,8 @@ public class GameController implements Initializable {
     }
 
 
-    public void onKeyPressed(KeyEvent keyEvent) {
-        if(form.isLanded) return;
+    public void onKeyPressed(KeyEvent keyEvent) throws IOException {
+        if (form.isLanded) return;
 
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);

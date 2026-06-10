@@ -1,8 +1,14 @@
 package com.tetris.shapes;
 
 import com.tetris.GameLogic;
+import com.tetris.GameOverController;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public abstract class Shape extends Group {
 
@@ -37,7 +43,7 @@ public abstract class Shape extends Group {
         return this.blocks;
     }
 
-    public void moveAD(Shape shape, KeyEvent keyEvent) {
+    public void moveAD(Shape shape, KeyEvent keyEvent) throws IOException {
         calcPos(shape, keyEvent);
     }
 
@@ -100,7 +106,7 @@ public abstract class Shape extends Group {
         Block[] blocks1 = shape.getBlocks();
         int drop = Integer.MAX_VALUE;
         for (int i = 0; i < blocks1.length; ++i) {
-            int space = (maxHeight-1) - blocks1[i].getPos().getY();
+            int space = (maxHeight - 1) - blocks1[i].getPos().getY();
             if (space < drop) drop = space;
         }
 
