@@ -4,6 +4,8 @@ import com.tetris.shapes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
@@ -24,6 +26,7 @@ import java.util.*;
 
 public class GameController implements Initializable {
     public Pane gamePane;
+    public Pane gameFieldPane;
     public Pane nextBlockPane;
     public Label currentScoreLabel;
     public Label highscoreLabel;
@@ -37,19 +40,38 @@ public class GameController implements Initializable {
     private boolean scoreSaved = false;
     public GameLogic gameLogic = new GameLogic();
 
-    private final Random random = new Random();
+    private Random random = new Random();
 
-    // Everything inherits from Shape so we can just use Shape here
-    private Shape form;
+    //Everything inherits from Shape so we can just use Shape here (is cleaner than Object too)
+    private Shape form = setRandom();
+    private Shape next = setRandom();
+
+    public Shape setRandom() {
+        return switch (random.nextInt(7)) {
+            case 0 -> new I(15, 10, 20);
+            case 1 -> new J(15, 10, 20);
+            case 2 -> new L(15, 10, 20);
+            case 3 -> new O(15, 10, 20);
+            case 4 -> new S(15, 10, 20);
+            case 5 -> new T(15, 10, 20);
+            default -> new Z(15, 10, 20);
+        };
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
-        getRandomShapes();
         gamePane.getChildren().add((form));
-
-        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(500), e -> form.moveDown(form)));
+        nextBlockPane.getChildren().add(next);
+        Timeline gameLoop = new Timeline(
+                new KeyFrame(Duration.millis(500), e -> {
+                    form.moveDown(form);
+                    if (form.isOnFloor()) {
+                        gameChange();
+                    }
+                })
+        );
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
 
@@ -66,22 +88,8 @@ public class GameController implements Initializable {
         });
     }
 
-    private void getRandomShapes() {
-        switch (random.nextInt(7)) {
-            case 0 -> form = new I(15, 10, 20, gameLogic);
-            case 1 -> form = new J(15, 10, 20, gameLogic);
-            case 2 -> form = new L(15, 10, 20, gameLogic);
-            case 3 -> form = new O(15, 10, 20, gameLogic);
-            case 4 -> form = new S(15, 10, 20, gameLogic);
-            case 5 -> form = new T(15, 10, 20, gameLogic);
-            case 6 -> form = new Z(15, 10, 20, gameLogic);
-        }
-    }
-
 
     public void onKeyPressed(KeyEvent keyEvent) throws IOException {
-        if (form.isLanded) return;
-
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
@@ -168,5 +176,19 @@ public class GameController implements Initializable {
         volumeScrollBar.setMin(0.0);
         volumeScrollBar.setMax(1.0);
         volumeScrollBar.setValue(0.1);
+    }
+
+
+    public void gameChange() {
+
+        if (form.isOnFloor()) {
+
+            form = next;
+            gamePane.getChildren().add(form);
+
+            nextBlockPane.getChildren().remove(next);
+            next = setRandom();
+            nextBlockPane.getChildren().add(next);
+        }
     }
 }

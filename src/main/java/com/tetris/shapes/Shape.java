@@ -21,6 +21,7 @@ public abstract class Shape extends Group {
 
     private int maxWidth;
     private int maxHeight;
+    private boolean onFloor=false;
 
     public boolean isLanded = false;
 
@@ -51,9 +52,18 @@ public abstract class Shape extends Group {
         for (int i = 0; i < positions.length; ++i) {
             int x = positions[i].getX();
             int y = positions[i].getY();
-            if (x < 0 || x >= maxWidth || y < 0 || y >= maxHeight) return false;
+            isOnFloor(positions);
+            if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return false;
         }
         return true;
+    }
+    public void isOnFloor(Position[] positions){
+        for (int i = 0; i < positions.length; ++i) {
+            int x = positions[i].getX();
+            int y = positions[i].getY();
+            if (y == 0 ) setOnFloor(true);
+        }
+       setOnFloor(false);
     }
 
     private void apply(Block[] blocks1, Position[] positions) {
@@ -87,6 +97,11 @@ public abstract class Shape extends Group {
     public void moveDown(Shape shape) {
         Block[] blocks1 = shape.getBlocks();
 
+        for (Block block : blocks1) {
+            if (block.getPos().getY() + 1 > ROWS) {
+                shape.setOnFloor(true);
+                return;
+            }
         for (int i = 0; i < blocks1.length; ++i) {
             if (blocks1[i].getPos().getY() + 1 >= maxHeight) {
                 isLanded = true;
@@ -95,13 +110,13 @@ public abstract class Shape extends Group {
             }
         }
 
-        for (int i = 0; i < blocks1.length; ++i) {
-            int x = blocks1[i].getPos().getX();
-            int y = blocks1[i].getPos().getY() + 1;
-            blocks1[i].setPos(new Position(x, y));
+        for (Block blocks : blocks1) {
+            int x = block.getPos().getX();
+            int y = block.getPos().getY() + 1;
+            block.setPos(new Position(x, y));
         }
     }
-
+    }
     public void hardDrop(Shape shape) {
         Block[] blocks1 = shape.getBlocks();
         int drop = Integer.MAX_VALUE;
@@ -149,5 +164,13 @@ public abstract class Shape extends Group {
                 hardDrop(shape);
                 break;
         }
+    }
+
+    public boolean isOnFloor() {
+        return onFloor;
+    }
+
+    public void setOnFloor(boolean onFloor) {
+        this.onFloor = onFloor;
     }
 }
