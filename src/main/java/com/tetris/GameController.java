@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.util.Duration;
 import javafx.scene.control.ComboBox;
@@ -39,6 +40,7 @@ public class GameController implements Initializable {
     private static MediaPlayer mediaPlayer;
     private boolean scoreSaved = false;
     public GameLogic gameLogic = new GameLogic();
+    private Timeline gameLoop;
 
     private Random random = new Random();
 
@@ -48,13 +50,13 @@ public class GameController implements Initializable {
 
     public Shape setRandom() {
         return switch (random.nextInt(7)) {
-            case 0 -> new I(15, 10, 20);
-            case 1 -> new J(15, 10, 20);
-            case 2 -> new L(15, 10, 20);
-            case 3 -> new O(15, 10, 20);
-            case 4 -> new S(15, 10, 20);
-            case 5 -> new T(15, 10, 20);
-            default -> new Z(15, 10, 20);
+            case 0 -> new I(15, 10, 20, gameLogic);
+            case 1 -> new J(15, 10, 20, gameLogic);
+            case 2 -> new L(15, 10, 20, gameLogic);
+            case 3 -> new O(15, 10, 20, gameLogic);
+            case 4 -> new S(15, 10, 20, gameLogic);
+            case 5 -> new T(15, 10, 20, gameLogic);
+            default -> new Z(15, 10, 20, gameLogic);
         };
     }
 
@@ -64,7 +66,7 @@ public class GameController implements Initializable {
         gamePane.requestFocus();
         gamePane.getChildren().add((form));
         nextBlockPane.getChildren().add(next);
-        Timeline gameLoop = new Timeline(
+        gameLoop = new Timeline(
                 new KeyFrame(Duration.millis(500), e -> {
                     form.moveDown(form);
                     if (form.isOnFloor()) {
@@ -90,6 +92,8 @@ public class GameController implements Initializable {
 
 
     public void onKeyPressed(KeyEvent keyEvent) throws IOException {
+        if (form.isLanded) return;
+
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
@@ -180,15 +184,40 @@ public class GameController implements Initializable {
 
 
     public void gameChange() {
+        if (!form.isOnFloor()) return;
 
-        if (form.isOnFloor()) {
+        // Promote the preview piece to the active one...
+        nextBlockPane.getChildren().remove(next);
+        form = next;
 
-            form = next;
-            gamePane.getChildren().add(form);
+        // ...and draw the following preview piece.
+        next = setRandom();
+        nextBlockPane.getChildren().add(next);
 
-            nextBlockPane.getChildren().remove(next);
-            next = setRandom();
-            nextBlockPane.getChildren().add(next);
+        // If the new piece can't even spawn, the stack reached the top -> game over.
+        for (Block block : form.getBlocks()) {
+            if (gameLogic.isOccupied(block.getPos().getX(), block.getPos().getY())) {
+                gameOver();
+                return;
+            }
+        }
+
+        gamePane.getChildren().add(form);
+    }
+
+    private void gameOver() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        onGameOverSaveScore();
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("game-over-view.fxml"));
+            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
+            javafx.stage.Stage stage = (javafx.stage.Stage) gamePane.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
