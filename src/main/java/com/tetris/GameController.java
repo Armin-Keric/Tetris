@@ -4,11 +4,8 @@ import com.tetris.shapes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.util.Duration;
+import javafx.geometry.Bounds;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -17,13 +14,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
+import java.util.Random;
+import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
     public Pane gamePane;
@@ -36,17 +33,19 @@ public class GameController implements Initializable {
     public ScrollBar volumeScrollBar;
     public ComboBox<String> songChoiceComboBox;
     public MenuButton settingsMenuButton;
+
     private static Media media;
     private static MediaPlayer mediaPlayer;
+
     private boolean scoreSaved = false;
+
     public GameLogic gameLogic = new GameLogic();
-    private Timeline gameLoop;
 
     private Random random = new Random();
 
-    //Everything inherits from Shape so we can just use Shape here (is cleaner than Object too)
     private Shape form = setRandom();
     private Shape next = setRandom();
+    private Shape nextPreview;
 
     public Shape setRandom() {
         return switch (random.nextInt(7)) {
@@ -60,13 +59,68 @@ public class GameController implements Initializable {
         };
     }
 
+    private Shape createPreviewShape(Shape shape) {
+        if (shape instanceof I) {
+            return new I(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof J) {
+            return new J(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof L) {
+            return new L(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof O) {
+            return new O(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof S) {
+            return new S(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof T) {
+            return new T(15, 10, 20, gameLogic);
+        }
+        return new Z(15, 10, 20, gameLogic);
+    }
+
+    private void showNextPreview() {
+        nextBlockPane.getChildren().clear();
+
+        nextPreview = createPreviewShape(next);
+        nextBlockPane.getChildren().add(nextPreview);
+
+        Platform.runLater(() -> {
+            nextPreview.setTranslateX(0);
+            nextPreview.setTranslateY(0);
+            nextPreview.setLayoutX(0);
+            nextPreview.setLayoutY(0);
+
+            Bounds bounds = nextPreview.getBoundsInParent();
+
+            double centerX = (nextBlockPane.getWidth() - bounds.getWidth()) / 2 - bounds.getMinX();
+            double centerY = (nextBlockPane.getHeight() - bounds.getHeight()) / 2 - bounds.getMinY();
+
+            nextPreview.setTranslateX(centerX);
+            nextPreview.setTranslateY(centerY);
+        });
+    }
+
+    private void resetGamePosition(Shape shape) {
+        shape.setTranslateX(0);
+        shape.setTranslateY(0);
+        shape.setLayoutX(0);
+        shape.setLayoutY(0);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
-        gamePane.getChildren().add((form));
-        nextBlockPane.getChildren().add(next);
-        gameLoop = new Timeline(
+
+        resetGamePosition(form);
+        gamePane.getChildren().add(form);
+
+        showNextPreview();
+
+        Timeline gameLoop = new Timeline(
                 new KeyFrame(Duration.millis(500), e -> {
                     form.moveDown(form);
                     if (form.isOnFloor()) {
@@ -74,6 +128,7 @@ public class GameController implements Initializable {
                     }
                 })
         );
+
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
 
@@ -90,10 +145,7 @@ public class GameController implements Initializable {
         });
     }
 
-
     public void onKeyPressed(KeyEvent keyEvent) throws IOException {
-        if (form.isLanded) return;
-
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
@@ -118,19 +170,25 @@ public class GameController implements Initializable {
     }
 
     private void refreshHighscoreLabel() {
-        String top = HighscoreManager.getInstance().getTopScore().map(entry -> String.valueOf(entry.getScore())).orElse("0");
+        String top = HighscoreManager.getInstance()
+                .getTopScore()
+                .map(entry -> String.valueOf(entry.getScore()))
+                .orElse("0");
+
         highscoreLabel.setText(top);
     }
 
-    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
     public void onGameOverSaveScore() {
         if (scoreSaved) {
             return;
         }
+
         int score = parseScore(currentScoreLabel.getText());
+
         if (score <= 0) {
             return;
         }
+
         HighscoreManager.getInstance().addScore(score, "Spieler");
         scoreSaved = true;
     }
@@ -139,10 +197,13 @@ public class GameController implements Initializable {
         if (text == null || text.isBlank()) {
             return 0;
         }
+
         String digits = text.replaceAll("[^0-9]", "");
+
         if (digits.isEmpty()) {
             return 0;
         }
+
         try {
             return Integer.parseInt(digits);
         } catch (NumberFormatException e) {
@@ -160,6 +221,7 @@ public class GameController implements Initializable {
 
             String songName = songChoiceComboBox.getSelectionModel().getSelectedItem();
             String musicFile = "./src/main/resources/com/tetris/assets/audio/" + songName + ".mp3";
+
             media = new Media(new File(musicFile).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
 
@@ -167,12 +229,12 @@ public class GameController implements Initializable {
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.volumeProperty().bind(volumeScrollBar.valueProperty());
         });
+
         musicThread.start();
     }
 
     public void addMusicToBox() {
         songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda", "Samuel-Remix");
-
         songChoiceComboBox.setValue(songChoiceComboBox.getItems().get(0));
     }
 
@@ -182,42 +244,14 @@ public class GameController implements Initializable {
         volumeScrollBar.setValue(0.1);
     }
 
-
     public void gameChange() {
-        if (!form.isOnFloor()) return;
+        if (form.isOnFloor()) {
+            form = next;
+            resetGamePosition(form);
+            gamePane.getChildren().add(form);
 
-        // Promote the preview piece to the active one...
-        nextBlockPane.getChildren().remove(next);
-        form = next;
-
-        // ...and draw the following preview piece.
-        next = setRandom();
-        nextBlockPane.getChildren().add(next);
-
-        // If the new piece can't even spawn, the stack reached the top -> game over.
-        for (Block block : form.getBlocks()) {
-            if (gameLogic.isOccupied(block.getPos().getX(), block.getPos().getY())) {
-                gameOver();
-                return;
-            }
-        }
-
-        gamePane.getChildren().add(form);
-    }
-
-    private void gameOver() {
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
-        onGameOverSaveScore();
-        try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("game-over-view.fxml"));
-            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
-            javafx.stage.Stage stage = (javafx.stage.Stage) gamePane.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+            next = setRandom();
+            showNextPreview();
         }
     }
 }
