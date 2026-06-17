@@ -4,11 +4,8 @@ import com.tetris.shapes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.util.Duration;
+import javafx.geometry.Bounds;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -17,13 +14,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
+import java.util.Random;
+import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
     public Pane gamePane;
@@ -40,11 +37,9 @@ public class GameController implements Initializable {
     private static MediaPlayer mediaPlayer;
     private boolean scoreSaved = false;
     public GameLogic gameLogic = new GameLogic();
-    private Timeline gameLoop;
 
     private Random random = new Random();
 
-    //Everything inherits from Shape so we can just use Shape here (is cleaner than Object too)
     private Shape form = setRandom();
     private Shape next = setRandom();
 
@@ -60,13 +55,37 @@ public class GameController implements Initializable {
         };
     }
 
+    private void centerNextBlock() {
+        Platform.runLater(() -> {
+            Bounds bounds = next.getBoundsInParent();
+
+            double paneWidth = nextBlockPane.getWidth();
+            double paneHeight = nextBlockPane.getHeight();
+
+            double targetX = (paneWidth - bounds.getWidth()) / 2 - bounds.getMinX();
+            double targetY = (paneHeight - bounds.getHeight()) / 2 - bounds.getMinY();
+
+            next.setTranslateX(next.getTranslateX() + targetX);
+            next.setTranslateY(next.getTranslateY() + targetY);
+        });
+    }
+
+    private void resetBlockPosition(Shape shape) {
+        shape.setTranslateX(0);
+        shape.setTranslateY(0);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
-        gamePane.getChildren().add((form));
+
+        gamePane.getChildren().add(form);
+
         nextBlockPane.getChildren().add(next);
-        gameLoop = new Timeline(
+        centerNextBlock();
+
+        Timeline gameLoop = new Timeline(
                 new KeyFrame(Duration.millis(500), e -> {
                     form.moveDown(form);
                     if (form.isOnFloor()) {
@@ -90,10 +109,7 @@ public class GameController implements Initializable {
         });
     }
 
-
     public void onKeyPressed(KeyEvent keyEvent) throws IOException {
-        if (form.isLanded) return;
-
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
@@ -122,7 +138,6 @@ public class GameController implements Initializable {
         highscoreLabel.setText(top);
     }
 
-    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
     public void onGameOverSaveScore() {
         if (scoreSaved) {
             return;
@@ -172,7 +187,6 @@ public class GameController implements Initializable {
 
     public void addMusicToBox() {
         songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda", "Samuel-Remix");
-
         songChoiceComboBox.setValue(songChoiceComboBox.getItems().get(0));
     }
 
@@ -182,42 +196,17 @@ public class GameController implements Initializable {
         volumeScrollBar.setValue(0.1);
     }
 
-
     public void gameChange() {
-        if (!form.isOnFloor()) return;
+        if (form.isOnFloor()) {
+            nextBlockPane.getChildren().remove(next);
 
-        // Promote the preview piece to the active one...
-        nextBlockPane.getChildren().remove(next);
-        form = next;
+            form = next;
+            resetBlockPosition(form);
+            gamePane.getChildren().add(form);
 
-        // ...and draw the following preview piece.
-        next = setRandom();
-        nextBlockPane.getChildren().add(next);
-
-        // If the new piece can't even spawn, the stack reached the top -> game over.
-        for (Block block : form.getBlocks()) {
-            if (gameLogic.isOccupied(block.getPos().getX(), block.getPos().getY())) {
-                gameOver();
-                return;
-            }
-        }
-
-        gamePane.getChildren().add(form);
-    }
-
-    private void gameOver() {
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
-        onGameOverSaveScore();
-        try {
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("game-over-view.fxml"));
-            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load());
-            javafx.stage.Stage stage = (javafx.stage.Stage) gamePane.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+            next = setRandom();
+            nextBlockPane.getChildren().add(next);
+            centerNextBlock();
         }
     }
 }
