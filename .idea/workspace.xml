@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="refractor: Code got improved, and added 1 new music disk. &#10;feat: SoftDrop + HardDrop got added.">
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/shapes/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/shapes/Shape.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +20,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="43" />
+    <option name="cachedIndexableFilesCount" value="44" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -47,6 +45,9 @@
     &quot;accountId&quot;: &quot;b289e69a-5426-4883-a37c-62812410e2c6&quot;
   }
 }</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="0tIuc82u" />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -192,7 +193,9 @@
       <workItem from="1781084931120" duration="6575000" />
       <workItem from="1781178325318" duration="12000" />
       <workItem from="1781523073864" duration="26000" />
-      <workItem from="1781527085598" duration="1337000" />
+      <workItem from="1781527085598" duration="1548000" />
+      <workItem from="1781683286905" duration="745000" />
+      <workItem from="1781689646435" duration="1134000" />
     </task>
     <task id="LOCAL-00001" summary="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method">
       <option name="closed" value="true" />
@@ -210,7 +213,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780316962338</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack">
+      <option name="closed" value="true" />
+      <created>1781528620628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1781528620628</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,7 +241,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method" />
     <MESSAGE value="refractor: Code got improved, and added 1 new music disk. &#10;feat: SoftDrop + HardDrop got added." />
-    <option name="LAST_COMMIT_MESSAGE" value="refractor: Code got improved, and added 1 new music disk. &#10;feat: SoftDrop + HardDrop got added." />
+    <MESSAGE value="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
