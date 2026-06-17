@@ -21,6 +21,7 @@ public abstract class Shape extends Group {
 
     private int maxWidth;
     private int maxHeight;
+    private boolean onFloor=false;
 
     public boolean isLanded = false;
 
@@ -51,7 +52,8 @@ public abstract class Shape extends Group {
         for (int i = 0; i < positions.length; ++i) {
             int x = positions[i].getX();
             int y = positions[i].getY();
-            if (x < 0 || x >= maxWidth || y < 0 || y >= maxHeight) return false;
+            // Out of bounds or blocked by an already landed block.
+            if (!gameLogic.isFree(x, y)) return false;
         }
         return true;
     }
@@ -87,10 +89,12 @@ public abstract class Shape extends Group {
     public void moveDown(Shape shape) {
         Block[] blocks1 = shape.getBlocks();
 
+        // Land if any block would hit the floor or a previously landed block.
         for (int i = 0; i < blocks1.length; ++i) {
-            if (blocks1[i].getPos().getY() + 1 >= maxHeight) {
-                isLanded = true;
-                //gameLogic.clearRows();
+            int x = blocks1[i].getPos().getX();
+            int y = blocks1[i].getPos().getY() + 1;
+            if (!gameLogic.isFree(x, y)) {
+                land(blocks1);
                 return;
             }
         }
@@ -102,12 +106,20 @@ public abstract class Shape extends Group {
         }
     }
 
+    /** Freeze the piece into the grid and clear any completed rows. */
+    private void land(Block[] blocks1) {
+        isLanded = true;
+        setOnFloor(true);
+        gameLogic.lock(blocks1);
+        gameLogic.clearRows();
+    }
     public void hardDrop(Shape shape) {
         Block[] blocks1 = shape.getBlocks();
-        int drop = Integer.MAX_VALUE;
-        for (int i = 0; i < blocks1.length; ++i) {
-            int space = (maxHeight - 1) - blocks1[i].getPos().getY();
-            if (space < drop) drop = space;
+
+        // Find how far the whole piece can drop before any block hits something.
+        int drop = 0;
+        while (canDropBy(blocks1, drop + 1)) {
+            drop++;
         }
 
         for (int i = 0; i < blocks1.length; ++i) {
@@ -116,10 +128,16 @@ public abstract class Shape extends Group {
                     blocks1[i].getPos().getY() + drop));
         }
 
-        isLanded = true;
+        land(blocks1);
+    }
 
-
-        //gameLogic.clearRows();
+    private boolean canDropBy(Block[] blocks1, int delta) {
+        for (int i = 0; i < blocks1.length; ++i) {
+            int x = blocks1[i].getPos().getX();
+            int y = blocks1[i].getPos().getY() + delta;
+            if (!gameLogic.isFree(x, y)) return false;
+        }
+        return true;
     }
 
     public void calcPos(Shape shape, KeyEvent keyEvent) {
@@ -149,5 +167,13 @@ public abstract class Shape extends Group {
                 hardDrop(shape);
                 break;
         }
+    }
+
+    public boolean isOnFloor() {
+        return onFloor;
+    }
+
+    public void setOnFloor(boolean onFloor) {
+        this.onFloor = onFloor;
     }
 }

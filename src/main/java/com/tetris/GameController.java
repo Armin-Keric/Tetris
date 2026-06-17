@@ -5,7 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
-import javafx.util.Duration;
+import javafx.geometry.Bounds;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -14,16 +14,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
-
+import java.util.Random;
+import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
     public Pane gamePane;
+    public Pane gameFieldPane;
     public Pane nextBlockPane;
     public Label currentScoreLabel;
     public Label highscoreLabel;
@@ -32,26 +33,102 @@ public class GameController implements Initializable {
     public ScrollBar volumeScrollBar;
     public ComboBox<String> songChoiceComboBox;
     public MenuButton settingsMenuButton;
+
     private static Media media;
     private static MediaPlayer mediaPlayer;
-    public Label timeLabel;
+
     private boolean scoreSaved = false;
+
     public GameLogic gameLogic = new GameLogic();
-    private boolean isPlaying = true;
 
-    private final Random random = new Random();
+    private Random random = new Random();
 
-    // Everything inherits from Shape so we can just use Shape here
-    private Shape form;
+    private Shape form = setRandom();
+    private Shape next = setRandom();
+    private Shape nextPreview;
+
+    public Shape setRandom() {
+        return switch (random.nextInt(7)) {
+            case 0 -> new I(15, 10, 20, gameLogic);
+            case 1 -> new J(15, 10, 20, gameLogic);
+            case 2 -> new L(15, 10, 20, gameLogic);
+            case 3 -> new O(15, 10, 20, gameLogic);
+            case 4 -> new S(15, 10, 20, gameLogic);
+            case 5 -> new T(15, 10, 20, gameLogic);
+            default -> new Z(15, 10, 20, gameLogic);
+        };
+    }
+
+    private Shape createPreviewShape(Shape shape) {
+        if (shape instanceof I) {
+            return new I(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof J) {
+            return new J(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof L) {
+            return new L(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof O) {
+            return new O(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof S) {
+            return new S(15, 10, 20, gameLogic);
+        }
+        if (shape instanceof T) {
+            return new T(15, 10, 20, gameLogic);
+        }
+        return new Z(15, 10, 20, gameLogic);
+    }
+
+    private void showNextPreview() {
+        nextBlockPane.getChildren().clear();
+
+        nextPreview = createPreviewShape(next);
+        nextBlockPane.getChildren().add(nextPreview);
+
+        Platform.runLater(() -> {
+            nextPreview.setTranslateX(0);
+            nextPreview.setTranslateY(0);
+            nextPreview.setLayoutX(0);
+            nextPreview.setLayoutY(0);
+
+            Bounds bounds = nextPreview.getBoundsInParent();
+
+            double centerX = (nextBlockPane.getWidth() - bounds.getWidth()) / 2 - bounds.getMinX();
+            double centerY = (nextBlockPane.getHeight() - bounds.getHeight()) / 2 - bounds.getMinY();
+
+            nextPreview.setTranslateX(centerX);
+            nextPreview.setTranslateY(centerY);
+        });
+    }
+
+    private void resetGamePosition(Shape shape) {
+        shape.setTranslateX(0);
+        shape.setTranslateY(0);
+        shape.setLayoutX(0);
+        shape.setLayoutY(0);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gamePane.setFocusTraversable(true);
         gamePane.requestFocus();
-        getRandomShapes();
-        gamePane.getChildren().add((form));
 
-        Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(500), e -> form.moveDown(form)));
+        resetGamePosition(form);
+        gamePane.getChildren().add(form);
+
+        showNextPreview();
+
+        Timeline gameLoop = new Timeline(
+                new KeyFrame(Duration.millis(500), e -> {
+                    form.moveDown(form);
+                    if (form.isOnFloor()) {
+                        gameChange();
+                    }
+                })
+        );
+
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         final GameTimer gameTimer = new GameTimer(timeLabel);
         gameTimer.gameTimer();
@@ -70,22 +147,7 @@ public class GameController implements Initializable {
         });
     }
 
-    private void getRandomShapes() {
-        switch (random.nextInt(7)) {
-            case 0 -> form = new I(15, 10, 20, gameLogic);
-            case 1 -> form = new J(15, 10, 20, gameLogic);
-            case 2 -> form = new L(15, 10, 20, gameLogic);
-            case 3 -> form = new O(15, 10, 20, gameLogic);
-            case 4 -> form = new S(15, 10, 20, gameLogic);
-            case 5 -> form = new T(15, 10, 20, gameLogic);
-            case 6 -> form = new Z(15, 10, 20, gameLogic);
-        }
-    }
-
-
     public void onKeyPressed(KeyEvent keyEvent) throws IOException {
-        if (form.isLanded) return;
-
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
@@ -110,7 +172,11 @@ public class GameController implements Initializable {
     }
 
     private void refreshHighscoreLabel() {
-        String top = HighscoreManager.getInstance().getTopScore().map(entry -> String.valueOf(entry.getScore())).orElse("0");
+        String top = HighscoreManager.getInstance()
+                .getTopScore()
+                .map(entry -> String.valueOf(entry.getScore()))
+                .orElse("0");
+
         highscoreLabel.setText(top);
     }
 
@@ -119,10 +185,13 @@ public class GameController implements Initializable {
         if (scoreSaved) {
             return;
         }
+
         int score = parseScore(currentScoreLabel.getText());
+
         if (score <= 0) {
             return;
         }
+
         HighscoreManager.getInstance().addScore(score, "Spieler");
         scoreSaved = true;
     }
@@ -131,10 +200,13 @@ public class GameController implements Initializable {
         if (text == null || text.isBlank()) {
             return 0;
         }
+
         String digits = text.replaceAll("[^0-9]", "");
+
         if (digits.isEmpty()) {
             return 0;
         }
+
         try {
             return Integer.parseInt(digits);
         } catch (NumberFormatException e) {
@@ -152,6 +224,7 @@ public class GameController implements Initializable {
 
             String songName = songChoiceComboBox.getSelectionModel().getSelectedItem();
             String musicFile = "./src/main/resources/com/tetris/assets/audio/" + songName + ".mp3";
+
             media = new Media(new File(musicFile).toURI().toString());
             mediaPlayer = new MediaPlayer(media);
 
@@ -159,12 +232,12 @@ public class GameController implements Initializable {
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.volumeProperty().bind(volumeScrollBar.valueProperty());
         });
+
         musicThread.start();
     }
 
     public void addMusicToBox() {
         songChoiceComboBox.getItems().addAll("Theme", "Sneaky Snitch", "Hidden Agenda", "Samuel-Remix");
-
         songChoiceComboBox.setValue(songChoiceComboBox.getItems().get(0));
     }
 
@@ -172,5 +245,16 @@ public class GameController implements Initializable {
         volumeScrollBar.setMin(0.0);
         volumeScrollBar.setMax(1.0);
         volumeScrollBar.setValue(0.1);
+    }
+
+    public void gameChange() {
+        if (form.isOnFloor()) {
+            form = next;
+            resetGamePosition(form);
+            gamePane.getChildren().add(form);
+
+            next = setRandom();
+            showNextPreview();
+        }
     }
 }
