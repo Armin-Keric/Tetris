@@ -48,6 +48,7 @@
                   <Line endX="77.28572082519531" endY="7.62939453125E-6" layoutX="73.0" layoutY="270.0" startX="-71.85711669921875" startY="1.52587890625E-5" stroke="WHITE" strokeWidth="0.5" style="-fx-fill: White;" />
                   <Line endX="77.28572082519531" endY="7.62939453125E-6" layoutX="73.0" layoutY="285.0" startX="-71.85711669921875" startY="1.52587890625E-5" stroke="WHITE" strokeWidth="0.5" style="-fx-fill: White;" />
                </children></Pane>
+            <Label fx:id="timeLabel" layoutX="125.0" layoutY="14.0" text="Label" />
             </children>
         </AnchorPane>
         <VBox prefWidth="200.0" spacing="15" style="-fx-padding: 20;">

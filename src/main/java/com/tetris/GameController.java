@@ -34,8 +34,10 @@ public class GameController implements Initializable {
     public MenuButton settingsMenuButton;
     private static Media media;
     private static MediaPlayer mediaPlayer;
+    public Label timeLabel;
     private boolean scoreSaved = false;
     public GameLogic gameLogic = new GameLogic();
+    private boolean isPlaying = true;
 
     private final Random random = new Random();
 
@@ -51,6 +53,8 @@ public class GameController implements Initializable {
 
         Timeline gameLoop = new Timeline(new KeyFrame(Duration.millis(500), e -> form.moveDown(form)));
         gameLoop.setCycleCount(Timeline.INDEFINITE);
+        final GameTimer gameTimer = new GameTimer(timeLabel);
+        gameTimer.gameTimer();
         gameLoop.play();
 
         initializeScoreLabels();
