@@ -77,7 +77,7 @@ public class GameController implements Initializable {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         gameLoop.play();
 
-        initializeScoreLabels();
+        updateScoreLabels();
         refreshHighscoreLabel();
         initVolumeSlider();
         addMusicToBox();
@@ -100,26 +100,24 @@ public class GameController implements Initializable {
             case A, D -> form.moveAD(form, keyEvent);
             case SPACE -> form.hardDrop(form);
         }
+
+        // A move may have landed a piece and cleared rows -> reflect new score.
+        updateScoreLabels();
     }
 
-    private void initializeScoreLabels() {
-        if ("Label".equals(currentScoreLabel.getText())) {
-            currentScoreLabel.setText("0");
-        }
-        if ("Label".equals(highscoreLabel.getText())) {
-            highscoreLabel.setText("0");
-        }
-        if ("Label".equals(currentLevelLabel.getText())) {
-            currentLevelLabel.setText("1");
-        }
-        if ("Label".equals(linesLabel.getText())) {
-            linesLabel.setText("0");
-        }
+    /** Render the live score, level and line count from the game model. */
+    private void updateScoreLabels() {
+        ScoreManager score = gameLogic.getScoreManager();
+        currentScoreLabel.setText(String.valueOf(score.getScore()));
+        currentLevelLabel.setText(String.valueOf(score.getLevel()));
+        linesLabel.setText(String.valueOf(score.getTotalLines()));
     }
 
     private void refreshHighscoreLabel() {
-        String top = HighscoreManager.getInstance().getTopScore().map(entry -> String.valueOf(entry.getScore())).orElse("0");
-        highscoreLabel.setText(top);
+        int storedTop = HighscoreManager.getInstance().getTopScore().map(HighscoreEntry::getScore).orElse(0);
+        // While playing, show the running score once it beats the stored best.
+        int shown = Math.max(storedTop, gameLogic.getScoreManager().getScore());
+        highscoreLabel.setText(String.valueOf(shown));
     }
 
     // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
@@ -127,27 +125,12 @@ public class GameController implements Initializable {
         if (scoreSaved) {
             return;
         }
-        int score = parseScore(currentScoreLabel.getText());
+        int score = gameLogic.getScoreManager().getScore();
         if (score <= 0) {
             return;
         }
         HighscoreManager.getInstance().addScore(score, "Spieler");
         scoreSaved = true;
-    }
-
-    private int parseScore(String text) {
-        if (text == null || text.isBlank()) {
-            return 0;
-        }
-        String digits = text.replaceAll("[^0-9]", "");
-        if (digits.isEmpty()) {
-            return 0;
-        }
-        try {
-            return Integer.parseInt(digits);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
     }
 
     public void songChosenComboBox() {
@@ -185,6 +168,10 @@ public class GameController implements Initializable {
 
     public void gameChange() {
         if (!form.isOnFloor()) return;
+
+        // The piece just landed and cleared rows -> show the updated score.
+        updateScoreLabels();
+        refreshHighscoreLabel();
 
         // Promote the preview piece to the active one...
         nextBlockPane.getChildren().remove(next);

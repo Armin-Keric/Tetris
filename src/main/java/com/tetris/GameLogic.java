@@ -15,6 +15,13 @@ public class GameLogic extends Pane {
     // Locked blocks of already landed pieces. null = empty cell.
     private final Block[][] grid = new Block[ROWS][COLS];
 
+    // Score, level and line count for this game.
+    private final ScoreManager scoreManager = new ScoreManager();
+
+    public ScoreManager getScoreManager() {
+        return scoreManager;
+    }
+
     public boolean isInside(int x, int y) {
         return x >= 0 && x < COLS && y >= 0 && y < ROWS;
     }
@@ -54,6 +61,8 @@ public class GameLogic extends Pane {
                 y--;
             }
         }
+        // One clear event of `cleared` rows -> award NES points for it.
+        scoreManager.addClearedLines(cleared);
         return cleared;
     }
 
