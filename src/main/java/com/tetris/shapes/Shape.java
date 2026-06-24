@@ -1,132 +1,176 @@
 package com.tetris.shapes;
 
-
+import com.tetris.GameLogic;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 
-import javax.swing.text.GapContent;
+import java.io.IOException;
 
 public abstract class Shape extends Group {
-    private int maxWidth = 0;
-    private int maxHeight = 0;
+
+    private static final int COLS = 16;
+    private static final int ROWS = 23;
+
     private int blocksize = 0;
     public Block[] blocks = new Block[4];
+    public GameLogic gameLogic;
 
-    public Shape(int blocksize, int maxWidth, int maxHeight) {
+    private int maxWidth;
+    private int maxHeight;
+    private boolean onFloor = false;
+
+    public boolean isLanded = false;
+    private boolean isLose = false;
+
+    public Shape(int blocksize, int maxWidth, int maxHeight, GameLogic gameLogic) {
         this.blocksize = blocksize;
-        this.maxHeight = maxHeight;
+        this.gameLogic = gameLogic;
         this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+    }
+
+    public int getMaxWidth() {
+        return maxWidth;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
     }
 
     public Block[] getBlocks() {
         return this.blocks;
     }
 
-    public void moveAD(Shape shape, KeyEvent keyEvent) {
+    public void moveAD(Shape shape, KeyEvent keyEvent) throws IOException {
         calcPos(shape, keyEvent);
     }
 
-    public void rotateRight(Shape shape) {
-        Block[] blocks1 = shape.getBlocks();
-
-        if (shape instanceof O) return;
-
-        int zentrumX = blocks1[1].getPos().getX();
-        int zentrumY = blocks1[1].getPos().getY();
-
-        Position[] positions = new Position[4];
-
-        //rotation calculations
-        for (int i = 0; i < blocks1.length; ++i) {
-            int relX = blocks1[i].getPos().getX() - zentrumX;
-            int relY = blocks1[i].getPos().getY() - zentrumY;
-
-            int rotiertX = -relY;
-            int rotiertY = relX;
-
-            int finalX = rotiertX + zentrumX;
-            int finalY = rotiertY + zentrumY;
-
-            positions[i] = new Position(finalX, finalY);
-        }
-
+    private boolean isValid(Position[] positions) {
         for (int i = 0; i < positions.length; ++i) {
             int x = positions[i].getX();
             int y = positions[i].getY();
-
-            if (x < 0 || x >= 16 || y < 0 || y >= 23) {
-                return;
-            }
+            // Out of bounds or blocked by an already landed block.
+            if (!gameLogic.isFree(x, y)) return false;
         }
+        return true;
+    }
 
+    private void apply(Block[] blocks1, Position[] positions) {
+        if (!isValid(positions)) return;
         for (int i = 0; i < blocks1.length; ++i) {
             blocks1[i].setPos(positions[i]);
         }
     }
 
-    //This is the SoftDrop too...
-    //@ToDo
-    public void moveDown(Shape shape) {
+    public void rotateRight(Shape shape) {
+        Block[] blocks1 = shape.getBlocks();
+        if (shape instanceof O) return;
 
+
+        for (int i = 0; i < blocks1.length; ++i) {
+            if (blocks1[i].getPos().getY() >= maxHeight) return;
+        }
+
+        int zentrumX = blocks1[1].getPos().getX();
+        int zentrumY = blocks1[1].getPos().getY();
+
+        Position[] positions = new Position[4];
+        for (int i = 0; i < blocks1.length; ++i) {
+            int relX = blocks1[i].getPos().getX() - zentrumX;
+            int relY = blocks1[i].getPos().getY() - zentrumY;
+            positions[i] = new Position(-relY + zentrumX, relX + zentrumY);
+        }
+        apply(blocks1, positions);
     }
 
-    //@ToDo
-    public void hardDrop(Shape shape) {
+    public void moveDown(Shape shape) {
+        Block[] blocks1 = shape.getBlocks();
 
+        // Land if any block would hit the floor or a previously landed block.
+        for (int i = 0; i < blocks1.length; ++i) {
+            int x = blocks1[i].getPos().getX();
+            int y = blocks1[i].getPos().getY() + 1;
+            if (!gameLogic.isFree(x, y)) {
+                land(blocks1);
+                return;
+            }
+        }
+
+        for (int i = 0; i < blocks1.length; ++i) {
+            int x = blocks1[i].getPos().getX();
+            int y = blocks1[i].getPos().getY() + 1;
+            blocks1[i].setPos(new Position(x, y));
+        }
+    }
+
+    /** Freeze the piece into the grid and clear any completed rows. */
+    private void land(Block[] blocks1) {
+        isLanded = true;
+        setOnFloor(true);
+        gameLogic.lock(blocks1);
+        gameLogic.clearRows();
+    }
+    public void hardDrop(Shape shape) {
+        Block[] blocks1 = shape.getBlocks();
+
+        // Find how far the whole piece can drop before any block hits something.
+        int drop = 0;
+        while (canDropBy(blocks1, drop + 1)) {
+            drop++;
+        }
+
+        //@ToDo
+        for (int i = 0; i < blocks1.length; ++i) {
+            blocks1[i].setPos(new Position(
+                    blocks1[i].getPos().getX(),
+                    blocks1[i].getPos().getY() + drop));
+        }
+        land(blocks1);
+    }
+
+    private boolean canDropBy(Block[] blocks1, int delta) {
+        for (int i = 0; i < blocks1.length; ++i) {
+            int x = blocks1[i].getPos().getX();
+            int y = blocks1[i].getPos().getY() + delta;
+            if (!gameLogic.isFree(x, y)) return false;
+        }
+        return true;
     }
 
     public void calcPos(Shape shape, KeyEvent keyEvent) {
         Block[] blocks1 = shape.getBlocks();
-
         switch (keyEvent.getCode()) {
-            case A:
-
-                for (int i = 0; i < shape.getBlocks().length; ++i) {
-                    int x = blocks1[i].getPos().getX() - 1;
-                    int y = blocks1[i].getPos().getY();
-                    if (x < 0 || blocks1[3].getPos().getX() == 0) {
-                        return;
-                    } else {
-                        Position pos = new Position(x, y);
-                        blocks1[i].setPos(pos);
-                    }
-
-                }
-
+            case A: {
+                Position[] p = new Position[4];
+                for (int i = 0; i < blocks1.length; ++i)
+                    p[i] = new Position(blocks1[i].getPos().getX() - 1, blocks1[i].getPos().getY());
+                apply(blocks1, p);
                 break;
-
-            case D:
-
-                for (int i = 0; i < shape.getBlocks().length; ++i) {
-                    int x = blocks1[i].getPos().getX() + 1;
-                    int y = blocks1[i].getPos().getY();
-                    if (x > 16 || blocks1[3].getPos().getX() + 1 == 17 || (blocks1[3].getPos().getX() + 2 == 17 && shape instanceof T)) {
-                        return;
-                    } else {
-                        Position pos = new Position(x, y);
-                        blocks1[i].setPos(pos);
-                    }
-
-                }
-
+            }
+            case D: {
+                Position[] p = new Position[4];
+                for (int i = 0; i < blocks1.length; ++i)
+                    p[i] = new Position(blocks1[i].getPos().getX() + 1, blocks1[i].getPos().getY());
+                apply(blocks1, p);
                 break;
-
+            }
             case E:
-
                 rotateRight(shape);
                 break;
-
-            //@ToDo
-            //entweder extra methode oder hier aber extra methode schoener
             case S:
-                //@ToDo
-
+                moveDown(shape);
                 break;
-
             case SPACE:
-
+                hardDrop(shape);
                 break;
         }
     }
 
+    public boolean isOnFloor() {
+        return onFloor;
+    }
+
+    public void setOnFloor(boolean onFloor) {
+        this.onFloor = onFloor;
+    }
 }

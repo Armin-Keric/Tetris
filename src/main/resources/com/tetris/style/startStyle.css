@@ -1,0 +1,118 @@
+
+.root {
+    -fx-background-color: #1a1d2e;
+    -fx-font-family: "Consolas";
+}
+
+.tetris-t {
+    -fx-text-fill: #00CCCC;
+}
+
+.tetris-e {
+    -fx-text-fill: #FFCC00;
+}
+
+.tetris-t2 {
+    -fx-text-fill: #FF7700;
+}
+
+.tetris-r {
+    -fx-text-fill: #FF3333;
+}
+
+.tetris-i {
+    -fx-text-fill: #8E5CFF;
+}
+
+.tetris-s {
+    -fx-text-fill: #2BD97F;
+}
+
+.backgroundCard {
+    -fx-background-color: #13152a;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-opacity: 0.75;
+}
+
+.titleText {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+}
+
+.subtitleText {
+    -fx-text-fill: #E6F9F9;
+    -fx-font-size: 13px;
+    -fx-opacity: 0.85;
+}
+
+.startButton {
+    -fx-background-color: #2a2d45;
+    -fx-text-fill: #00CCCC;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-padding: 8 18;
+}
+
+.startButton:hover {
+    -fx-background-color: #34385a;
+    -fx-text-fill: #00FFFF;
+}
+
+.startButton:pressed {
+    -fx-background-color: #22253b;
+}
+
+.highscoreButton {
+    -fx-background-color: #1f2236;
+    -fx-text-fill: #FFCC00;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+}
+
+.highscoreButton:hover {
+    -fx-background-color: #2a2d45;
+}
+
+.highscorePane {
+    -fx-background-color: rgba(42,45,69,0.92);
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+}
+
+.highscoreListView {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: #13152a;
+    -fx-border-color: #3a3d55;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #E6F9F9;
+}
+
+.highscoreListView .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #E6F9F9;
+    -fx-font-family: "Consolas";
+}
+
+.highscoreListView .list-cell:filled:hover {
+    -fx-background-color: rgba(0,204,204,0.12);
+}
+
+.highscoreListView .list-cell:filled:selected {
+    -fx-background-color: rgba(0,204,204,0.22);
+}
+

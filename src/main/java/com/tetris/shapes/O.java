@@ -1,19 +1,22 @@
 package com.tetris.shapes;
 
 
-public class O extends Shape{
-    public O(int blockSize, int maxWidth, int maxHeight){
-        super(blockSize,maxWidth,maxHeight);
-        this.blocks[0]=new Block(blockSize);
-        this.blocks[0].setPos(new Position(maxWidth/2-1,0));
-        this.blocks[1]=new Block(blockSize);
-        this.blocks[1].setPos(new Position(maxWidth/2,0));
-        this.blocks[2]=new Block(blockSize);
-        this.blocks[2].setPos(new Position(maxWidth/2-1,1));
-        this.blocks[3]=new Block(blockSize);
-        this.blocks[3].setPos(new Position(maxWidth/2,1));
+import com.tetris.GameLogic;
+import javafx.scene.paint.Color;
 
-        for (Block block:blocks){
+public class O extends Shape {
+    public O(int blockSize, int maxWidth, int maxHeight, GameLogic gameLogic) {
+        super(blockSize, maxWidth, maxHeight,gameLogic);
+        this.blocks[0] = new Block(blockSize, Color.YELLOW);
+        this.blocks[0].setPos(new Position(maxWidth / 2 - 1, 0));
+        this.blocks[1] = new Block(blockSize, Color.YELLOW);
+        this.blocks[1].setPos(new Position(maxWidth / 2, 0));
+        this.blocks[2] = new Block(blockSize, Color.YELLOW);
+        this.blocks[2].setPos(new Position(maxWidth / 2 - 1, 1));
+        this.blocks[3] = new Block(blockSize, Color.YELLOW);
+        this.blocks[3].setPos(new Position(maxWidth / 2, 1));
+
+        for (Block block : blocks) {
             this.getChildren().add(block);
         }
     }

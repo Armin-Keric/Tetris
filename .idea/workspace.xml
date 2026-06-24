@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method">
+    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="fix: Score + Highscore system got fixed and intergrated.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/HelloController.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +18,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="13" />
+    <option name="cachedIndexableFilesCount" value="53" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -31,6 +29,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -42,9 +45,12 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Armin-Keric/Tetris.git&quot;,
-    &quot;accountId&quot;: &quot;7b4d8677-a8b6-4037-bfcc-21453af906ea&quot;
+    &quot;accountId&quot;: &quot;b289e69a-5426-4883-a37c-62812410e2c6&quot;
   }
 }</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="0tIuc82u" />
+  </component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -122,12 +128,13 @@
     &quot;Application.Launcher.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -142,6 +149,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\paulp\HTL_STEYR_3AHITN\SEW\JAVA\Tetris\src\main\resources\com\tetris\assets\audio" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.tetris.Launcher" />
@@ -159,14 +171,15 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Launcher" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.33514.17" />
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.33514.17" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
       </set>
     </attachedChunks>
   </component>
@@ -179,6 +192,16 @@
       <updated>1779276842244</updated>
       <workItem from="1779276843376" duration="3594000" />
       <workItem from="1779299520638" duration="1705000" />
+      <workItem from="1780922062727" duration="1153000" />
+      <workItem from="1781082524048" duration="53000" />
+      <workItem from="1781084931120" duration="6575000" />
+      <workItem from="1781178325318" duration="12000" />
+      <workItem from="1781523073864" duration="26000" />
+      <workItem from="1781527085598" duration="1548000" />
+      <workItem from="1781683286905" duration="745000" />
+      <workItem from="1781689646435" duration="1134000" />
+      <workItem from="1782126585832" duration="3156000" />
+      <workItem from="1782294515402" duration="3020000" />
     </task>
     <task id="LOCAL-00001" summary="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method">
       <option name="closed" value="true" />
@@ -188,15 +211,62 @@
       <option name="project" value="LOCAL" />
       <updated>1779303124184</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="refractor: Code got improved, and added 1 new music disk. &#10;feat: SoftDrop + HardDrop got added.">
+      <option name="closed" value="true" />
+      <created>1780316962338</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1780316962338</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack">
+      <option name="closed" value="true" />
+      <created>1781528620628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1781528620628</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix: add game-over detection and stop input on locked pieces">
+      <option name="closed" value="true" />
+      <created>1782295667824</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1782295667825</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix: Score + Highscore system got fixed and intergrated.">
+      <option name="closed" value="true" />
+      <created>1782296442370</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1782296442370</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method" />
+    <MESSAGE value="refractor: Code got improved, and added 1 new music disk. &#10;feat: SoftDrop + HardDrop got added." />
+    <MESSAGE value="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack" />
+    <MESSAGE value="fix: add game-over detection and stop input on locked pieces" />
+    <MESSAGE value="fix: Score + Highscore system got fixed and intergrated." />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Score + Highscore system got fixed and intergrated." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
