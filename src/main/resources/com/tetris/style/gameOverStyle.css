@@ -1,0 +1,44 @@
+.root {
+    -fx-background-color: #1a1d2e;
+}
+
+.backgroundCard {
+    -fx-background-color: #13152a;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-opacity: 0.75;
+}
+
+.gameOver {
+    -fx-text-fill: #FF3333;
+}
+
+.startButton {
+    -fx-background-color: #2a2d45;
+    -fx-text-fill: #00CCCC;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #3a3d55;
+    -fx-border-width: 1;
+    -fx-padding: 8 18;
+}
+
+.highscoreListView {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: #13152a;
+    -fx-border-color: #3a3d55;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: #E6F9F9;
+}
+
+.headText {
+    -fx-font-family: Consolas;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
