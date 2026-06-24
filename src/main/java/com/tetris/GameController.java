@@ -36,6 +36,7 @@ public class GameController implements Initializable {
 
     private static Media media;
     private static MediaPlayer mediaPlayer;
+    public Label timeLabel;
 
     private boolean scoreSaved = false;
 
