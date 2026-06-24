@@ -41,7 +41,6 @@ public class GameController implements Initializable {
     private static MediaPlayer mediaPlayer;
     public Label timeLabel;
 
-    private boolean scoreSaved = false;
     private boolean gameOver = false;
 
     private Timeline gameLoop;
@@ -133,6 +132,7 @@ public class GameController implements Initializable {
                     if (form.isOnFloor()) {
                         gameChange();
                     }
+                    updateScoreLabels();
                 })
         );
 
@@ -142,6 +142,7 @@ public class GameController implements Initializable {
         gameLoop.play();
 
         initializeScoreLabels();
+        updateScoreLabels();
         refreshHighscoreLabel();
         initVolumeSlider();
         addMusicToBox();
@@ -171,6 +172,17 @@ public class GameController implements Initializable {
         if (form.isOnFloor()) {
             gameChange();
         }
+
+        updateScoreLabels();
+    }
+
+    /** Mirror the running ScoreManager into the on-screen labels. */
+    private void updateScoreLabels() {
+        ScoreManager sm = gameLogic.getScoreManager();
+        currentScoreLabel.setText(String.valueOf(sm.getScore()));
+        // ScoreManager counts levels from 0; players expect level 1 upwards.
+        currentLevelLabel.setText(String.valueOf(sm.getLevel() + 1));
+        linesLabel.setText(String.valueOf(sm.getTotalLines()));
     }
 
     private void initializeScoreLabels() {
@@ -195,40 +207,6 @@ public class GameController implements Initializable {
                 .orElse("0");
 
         highscoreLabel.setText(top);
-    }
-
-    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
-    public void onGameOverSaveScore() {
-        if (scoreSaved) {
-            return;
-        }
-
-        int score = parseScore(currentScoreLabel.getText());
-
-        if (score <= 0) {
-            return;
-        }
-
-        HighscoreManager.getInstance().addScore(score, "Spieler");
-        scoreSaved = true;
-    }
-
-    private int parseScore(String text) {
-        if (text == null || text.isBlank()) {
-            return 0;
-        }
-
-        String digits = text.replaceAll("[^0-9]", "");
-
-        if (digits.isEmpty()) {
-            return 0;
-        }
-
-        try {
-            return Integer.parseInt(digits);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
     }
 
     public void songChosenComboBox() {
@@ -304,11 +282,15 @@ public class GameController implements Initializable {
             mediaPlayer.stop();
         }
 
-        onGameOverSaveScore();
-
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("game-over-view.fxml"));
             Scene scene = new Scene(loader.load());
+
+            // Hand the final score to the game-over screen, where the player
+            // types a name and saves it to the highscore list.
+            GameOverController controller = loader.getController();
+            controller.setFinalScore(gameLogic.getScoreManager().getScore());
+
             Stage stage = (Stage) gamePane.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
