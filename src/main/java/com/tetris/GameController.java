@@ -39,6 +39,7 @@ public class GameController implements Initializable {
 
     private static Media media;
     private static MediaPlayer mediaPlayer;
+    public Label timeLabel;
 
     private boolean scoreSaved = false;
     private boolean gameOver = false;
@@ -136,6 +137,8 @@ public class GameController implements Initializable {
         );
 
         gameLoop.setCycleCount(Timeline.INDEFINITE);
+        final GameTimer gameTimer = new GameTimer(timeLabel);
+        gameTimer.gameTimer();
         gameLoop.play();
 
         initializeScoreLabels();
@@ -194,6 +197,7 @@ public class GameController implements Initializable {
         highscoreLabel.setText(top);
     }
 
+    // Aufrufen, sobald bestehende Logik "Game Over" ausloest.
     public void onGameOverSaveScore() {
         if (scoreSaved) {
             return;

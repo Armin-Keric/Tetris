@@ -1,12 +1,8 @@
 package com.tetris.shapes;
 
 import com.tetris.GameLogic;
-import com.tetris.GameOverController;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -21,9 +17,10 @@ public abstract class Shape extends Group {
 
     private int maxWidth;
     private int maxHeight;
-    private boolean onFloor=false;
+    private boolean onFloor = false;
 
     public boolean isLanded = false;
+    private boolean isLose = false;
 
     public Shape(int blocksize, int maxWidth, int maxHeight, GameLogic gameLogic) {
         this.blocksize = blocksize;
@@ -122,12 +119,12 @@ public abstract class Shape extends Group {
             drop++;
         }
 
+        //@ToDo
         for (int i = 0; i < blocks1.length; ++i) {
             blocks1[i].setPos(new Position(
                     blocks1[i].getPos().getX(),
                     blocks1[i].getPos().getY() + drop));
         }
-
         land(blocks1);
     }
 

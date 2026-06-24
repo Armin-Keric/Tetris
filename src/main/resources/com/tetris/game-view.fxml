@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 
-<SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style/gameStyle.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tetris.GameController">
+<SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style/gameStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tetris.GameController">
     <items>
         <AnchorPane style="-fx-padding: 20;">
             <children>
@@ -49,6 +49,7 @@
                         <Line endX="77.28572082519531" endY="7.62939453125E-6" layoutX="73.0" layoutY="285.0" startX="-71.85711669921875" startY="1.52587890625E-5" stroke="WHITE" strokeWidth="0.5" style="-fx-fill: White;" />
                     </children>
                 </Pane>
+            <Label fx:id="timeLabel" layoutX="100.0" layoutY="31.0" prefHeight="17.0" prefWidth="81.0" text="Label" />
             </children>
         </AnchorPane>
 
