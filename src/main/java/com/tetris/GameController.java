@@ -4,8 +4,11 @@ import com.tetris.shapes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -38,6 +41,9 @@ public class GameController implements Initializable {
     private static MediaPlayer mediaPlayer;
 
     private boolean scoreSaved = false;
+    private boolean gameOver = false;
+
+    private Timeline gameLoop;
 
     public GameLogic gameLogic = new GameLogic();
 
@@ -120,7 +126,7 @@ public class GameController implements Initializable {
 
         showNextPreview();
 
-        Timeline gameLoop = new Timeline(
+        gameLoop = new Timeline(
                 new KeyFrame(Duration.millis(500), e -> {
                     form.moveDown(form);
                     if (form.isOnFloor()) {
@@ -146,11 +152,21 @@ public class GameController implements Initializable {
     }
 
     public void onKeyPressed(KeyEvent keyEvent) throws IOException {
+
+        if (gameOver || form.isOnFloor()) {
+            return;
+        }
+
         switch (keyEvent.getCode()) {
             case E -> form.rotateRight(form);
             case S -> form.moveDown(form);
             case A, D -> form.moveAD(form, keyEvent);
             case SPACE -> form.hardDrop(form);
+        }
+
+
+        if (form.isOnFloor()) {
+            gameChange();
         }
     }
 
@@ -250,8 +266,50 @@ public class GameController implements Initializable {
             resetGamePosition(form);
             gamePane.getChildren().add(form);
 
+            // The new piece spawns on top of locked blocks -> the stack reached
+            // the top, so the game is over.
+            if (isSpawnBlocked(form)) {
+                endGame();
+                return;
+            }
+
             next = setRandom();
             showNextPreview();
+        }
+    }
+
+    private boolean isSpawnBlocked(Shape shape) {
+        for (Block block : shape.getBlocks()) {
+            if (gameLogic.isOccupied(block.getPos().getX(), block.getPos().getY())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void endGame() {
+        if (gameOver) {
+            return;
+        }
+        gameOver = true;
+
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+
+        onGameOverSaveScore();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("game-over-view.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) gamePane.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
