@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack">
+    <list default="true" id="4fed27cc-1be0-4853-a300-2a5edfe728e4" name="Changes" comment="fix: Score + Highscore system got fixed and intergrated.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tetris/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tetris/GameLogic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +18,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="44" />
+    <option name="cachedIndexableFilesCount" value="53" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -31,6 +29,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -168,6 +171,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Launcher" />
       </list>
     </recent_temporary>
   </component>
@@ -196,6 +200,8 @@
       <workItem from="1781527085598" duration="1548000" />
       <workItem from="1781683286905" duration="745000" />
       <workItem from="1781689646435" duration="1134000" />
+      <workItem from="1782126585832" duration="3156000" />
+      <workItem from="1782294515402" duration="3020000" />
     </task>
     <task id="LOCAL-00001" summary="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method">
       <option name="closed" value="true" />
@@ -221,7 +227,23 @@
       <option name="project" value="LOCAL" />
       <updated>1781528620628</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix: add game-over detection and stop input on locked pieces">
+      <option name="closed" value="true" />
+      <created>1782295667824</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1782295667825</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix: Score + Highscore system got fixed and intergrated.">
+      <option name="closed" value="true" />
+      <created>1782296442370</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1782296442370</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,7 +264,9 @@
     <MESSAGE value="feat: groundwork for movement, refactored a little bit, added randomness of tetromino creation in the initialize() method" />
     <MESSAGE value="refractor: Code got improved, and added 1 new music disk. &#10;feat: SoftDrop + HardDrop got added." />
     <MESSAGE value="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add block collision and fix piece-spawn cycle&#10;&#10;- Shape: collision via GameLogic in moveDown/hardDrop/rotate, fix&#10;  broken moveDown and onFloor handling&#10;- GameLogic: 10x20 occupancy grid with lock + working clearRows&#10;- GameController: block input on landed pieces, game over on full stack" />
+    <MESSAGE value="fix: add game-over detection and stop input on locked pieces" />
+    <MESSAGE value="fix: Score + Highscore system got fixed and intergrated." />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Score + Highscore system got fixed and intergrated." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
