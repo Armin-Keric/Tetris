@@ -181,7 +181,6 @@ public class GameController implements Initializable {
         ScoreManager sm = gameLogic.getScoreManager();
         currentScoreLabel.setText(String.valueOf(sm.getScore()));
         // ScoreManager counts levels from 0; players expect level 1 upwards.
-        currentLevelLabel.setText(String.valueOf(sm.getLevel() + 1));
         linesLabel.setText(String.valueOf(sm.getTotalLines()));
     }
 
@@ -191,9 +190,6 @@ public class GameController implements Initializable {
         }
         if ("Label".equals(highscoreLabel.getText())) {
             highscoreLabel.setText("0");
-        }
-        if ("Label".equals(currentLevelLabel.getText())) {
-            currentLevelLabel.setText("1");
         }
         if ("Label".equals(linesLabel.getText())) {
             linesLabel.setText("0");
